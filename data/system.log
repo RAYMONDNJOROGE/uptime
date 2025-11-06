@@ -1,0 +1,25 @@
+[2025-11-06 23:17:19] [INFO] Admin logged in: admin
+[2025-11-06 23:17:19] [INFO] MikroTik connected successfully
+[2025-11-06 23:17:19] [INFO] MikroTik connected successfully
+[2025-11-06 23:17:54] [INFO] Created 1 voucher(s) for plan 30min_plan: UTS-W40UBR
+[2025-11-06 23:17:54] [INFO] MikroTik connected successfully
+[2025-11-06 23:17:54] [INFO] MikroTik connected successfully
+[2025-11-06 23:18:37] [INFO] MikroTik connected successfully
+[2025-11-06 23:18:37] [INFO] Voucher used successfully: UTS-W40UBR - MAC: $(mac)
+[2025-11-06 23:18:48] [INFO] Created 1 voucher(s) for plan 30min_plan: UTS-DUEN9A
+[2025-11-06 23:18:48] [INFO] MikroTik connected successfully
+[2025-11-06 23:18:49] [INFO] MikroTik connected successfully
+[2025-11-06 23:18:57] [INFO] Created 1 voucher(s) for plan 30min_plan: UTS-66NXB9
+[2025-11-06 23:18:57] [INFO] MikroTik connected successfully
+[2025-11-06 23:18:57] [INFO] MikroTik connected successfully
+[2025-11-06 23:19:11] [INFO] Deleted voucher: UTS-DUEN9A
+[2025-11-06 23:19:11] [INFO] MikroTik connected successfully
+[2025-11-06 23:19:11] [INFO] MikroTik connected successfully
+[2025-11-06 23:19:17] [INFO] Deleted voucher: UTS-66NXB9
+[2025-11-06 23:19:17] [INFO] MikroTik connected successfully
+[2025-11-06 23:19:18] [INFO] MikroTik connected successfully
+[2025-11-06 23:20:11] [INFO] MikroTik connected successfully
+[2025-11-06 23:20:16] [WARNING] Attempted to use already used voucher: UTS-W40UBR
+[2025-11-06 23:20:22] [WARNING] Invalid voucher attempt: UTS-W40UBT
+[2025-11-06 23:20:43] [INFO] Payment initiated: UTS17624604306574 for 254791024153
+[2025-11-06 23:23:07] [WARNING] Failed login attempt for user: admin

@@ -1,0 +1,16 @@
+{
+    "UTS17624604306574": {
+        "transaction_ref": "UTS17624604306574",
+        "phone_number": "254791024153",
+        "amount": "5",
+        "plan_name": "30min_plan",
+        "validity": "30min",
+        "mac_address": "$(mac)",
+        "ip_address": "$(ip)",
+        "checkout_request_id": "ws_CO_06112025232043107791024153",
+        "merchant_request_id": "1a3e-41dc-a45f-b1ef9fa966728278",
+        "status": "pending",
+        "initiated_at": "2025-11-06 23:20:43",
+        "confirmed_at": null
+    }
+}

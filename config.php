@@ -1,0 +1,152 @@
+<?php
+// Configuration File for Uptime Hotspot System
+
+// ============================================
+// ADMIN CREDENTIALS
+// ============================================
+define('ADMIN_USERNAME', 'admin');
+define('ADMIN_PASSWORD', 'Hi2939.9'); // Change this to a secure password
+
+// ============================================
+// MIKROTIK ROUTER SETTINGS
+// ============================================
+define('MIKROTIK_HOST', '173.0.0.1'); // Router IP address
+define('MIKROTIK_USER', 'fanatik'); // Mikrotik username
+define('MIKROTIK_PASS', 'Hi2939.9'); // Mikrotik password
+define('MIKROTIK_PORT', 8728); // API port (default: 8728)
+
+// ============================================
+// M-PESA DARAJA API SETTINGS
+// ============================================
+define('MPESA_CONSUMER_KEY', '1bvBpyAQdFgnAxVgrPOoE0wNlnqdgqmTGw2ifirVgeG0gscJ');
+define('MPESA_CONSUMER_SECRET', 'hu1EnuMQO4asAmvwqRn65c5OZwDqTnYAz9hA5NQaL0GopQQOAkuJjRhGWFtOAiak');
+define('MPESA_SHORTCODE', '174379'); // Your paybill/till number
+define('MPESA_PASSKEY', 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919');
+define('MPESA_CALLBACK_URL', 'https://yourdomain.com/api/callback.php');
+define('MPESA_ENVIRONMENT', 'sandbox'); // 'sandbox' or 'production'
+
+// ============================================
+// HOTSPOT PROFILES MAPPING
+// ============================================
+$HOTSPOT_PROFILES = [
+    '30min_plan' => [
+        'profile' => '30min_3mbps',
+        'validity' => '30m',
+        'amount' => 5,
+        'speed' => '3M/3M'
+    ],
+    '2hour_plan' => [
+        'profile' => '2hour_3mbps',
+        'validity' => '2h',
+        'amount' => 10,
+        'speed' => '3M/3M'
+    ],
+    '12hour_plan' => [
+        'profile' => '12hour_3mbps',
+        'validity' => '12h',
+        'amount' => 20,
+        'speed' => '3M/3M'
+    ],
+    '24hour_plan' => [
+        'profile' => '24hour_3mbps',
+        'validity' => '1d',
+        'amount' => 40,
+        'speed' => '3M/3M'
+    ],
+    '1week_plan' => [
+        'profile' => '1week_3mbps',
+        'validity' => '1w',
+        'amount' => 240,
+        'speed' => '3M/3M'
+    ]
+];
+
+// ============================================
+// FILE STORAGE PATHS
+// ============================================
+define('DATA_DIR', __DIR__ . '/data');
+define('VOUCHERS_FILE', DATA_DIR . '/vouchers.json');
+define('TRANSACTIONS_FILE', DATA_DIR . '/transactions.json');
+define('LOGS_FILE', DATA_DIR . '/system.log');
+
+// ============================================
+// SYSTEM SETTINGS
+// ============================================
+define('TIMEZONE', 'Africa/Nairobi');
+date_default_timezone_set(TIMEZONE);
+
+// Create data directory if it doesn't exist
+if (!file_exists(DATA_DIR)) {
+    mkdir(DATA_DIR, 0755, true);
+}
+
+// Initialize files if they don't exist
+if (!file_exists(VOUCHERS_FILE)) {
+    file_put_contents(VOUCHERS_FILE, json_encode([]));
+}
+
+if (!file_exists(TRANSACTIONS_FILE)) {
+    file_put_contents(TRANSACTIONS_FILE, json_encode([]));
+}
+
+if (!file_exists(LOGS_FILE)) {
+    file_put_contents(LOGS_FILE, '');
+}
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+function logMessage($message, $type = 'INFO') {
+    $timestamp = date('Y-m-d H:i:s');
+    $logEntry = "[{$timestamp}] [{$type}] {$message}\n";
+    file_put_contents(LOGS_FILE, $logEntry, FILE_APPEND);
+}
+
+function getVouchers() {
+    $data = file_get_contents(VOUCHERS_FILE);
+    return json_decode($data, true) ?: [];
+}
+
+function saveVouchers($vouchers) {
+    return file_put_contents(VOUCHERS_FILE, json_encode($vouchers, JSON_PRETTY_PRINT));
+}
+
+function getTransactions() {
+    $data = file_get_contents(TRANSACTIONS_FILE);
+    return json_decode($data, true) ?: [];
+}
+
+function saveTransactions($transactions) {
+    return file_put_contents(TRANSACTIONS_FILE, json_encode($transactions, JSON_PRETTY_PRINT));
+}
+
+function generateVoucherCode() {
+    $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    $code = '';
+    for ($i = 0; $i < 6; $i++) {
+        $code .= $characters[random_int(0, strlen($characters) - 1)];
+    }
+    return 'UTS-' . $code;
+}
+
+function getMpesaAccessToken() {
+    $url = MPESA_ENVIRONMENT === 'production' 
+        ? 'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
+        : 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
+    
+    $credentials = base64_encode(MPESA_CONSUMER_KEY . ':' . MPESA_CONSUMER_SECRET);
+    
+    $curl = curl_init($url);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, ['Authorization: Basic ' . $credentials]);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    
+    $response = curl_exec($curl);
+    curl_close($curl);
+    
+    $result = json_decode($response);
+    return $result->access_token ?? null;
+}
+
+?>

@@ -1,0 +1,13 @@
+{
+    "UTS-W40UBR": {
+        "code": "UTS-W40UBR",
+        "plan_name": "30min_plan",
+        "status": "used",
+        "created_at": "2025-11-06 23:17:54",
+        "expires_at": "2025-12-06 23:17:54",
+        "created_by": "admin",
+        "used_at": "2025-11-06 23:18:37",
+        "used_by_mac": "$(mac)",
+        "used_by_ip": "$(ip)"
+    }
+}
