@@ -1,0 +1,6 @@
+{
+  "name": "uptime/hotspot",
+  "require": {
+    "php": "^8.3"
+  }
+}
