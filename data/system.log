@@ -262,3 +262,194 @@
 [2025-11-07 04:10:34] [INFO] MikroTik connected successfully
 [2025-11-07 04:10:34] [INFO] Hotspot user 254113677613 added successfully
 [2025-11-07 04:10:34] [INFO] Payment confirmed via callback: UTS17624778233255 - User created: 254113677613 - Receipt: TK7BX9IN0V
+[2025-11-07 04:18:20] [INFO] Payment initiated: UTS17624782997950 for 254113677613
+[2025-11-07 04:18:25] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"be7b-4951-8c4a-937fa077d2093328","CheckoutRequestID":"ws_CO_07112025041820589113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 04:18:25] [WARNING] Payment failed: UTS17624782997950 - Reason: Request Cancelled by User
+[2025-11-07 04:19:11] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 04:19:37] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 04:21:58] [INFO] Payment initiated: UTS17624785166113 for 254113677613
+[2025-11-07 04:22:06] [INFO] MikroTik connected successfully
+[2025-11-07 04:22:06] [INFO] Hotspot user 254113677613 added successfully
+[2025-11-07 04:22:06] [INFO] Payment confirmed: UTS17624785166113 - User created: 254113677613
+[2025-11-07 04:22:06] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"41ee-4e5a-ac1d-f88e26237e3b9180","CheckoutRequestID":"ws_CO_07112025042158230113677613","ResultCode":0,"ResultDesc":"The service request is processed successfully.","CallbackMetadata":{"Item":[{"Name":"Amount","Value":5},{"Name":"MpesaReceiptNumber","Value":"TK7BX9IFC6"},{"Name":"Balance"},{"Name":"TransactionDate","Value":20251107042205},{"Name":"PhoneNumber","Value":254113677613}]}}}}
+[2025-11-07 04:22:06] [INFO] MikroTik connected successfully
+[2025-11-07 04:22:06] [INFO] Hotspot user 254113677613 added successfully
+[2025-11-07 04:22:06] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 04:22:06] [INFO] User 254113677613 logged in automatically
+[2025-11-07 04:22:06] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 04:22:06] [INFO] User 254113677613 auto-logged in after payment
+[2025-11-07 04:22:06] [INFO] Payment confirmed: UTS17624785166113 - User: 254113677613 - Receipt: TK7BX9IFC6
+[2025-11-07 04:28:29] [INFO] Payment initiated: UTS17624789079773 for 254113677613
+[2025-11-07 04:28:35] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"2243-4d52-a80d-0355c870e3253476","CheckoutRequestID":"ws_CO_07112025042829371113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 04:28:35] [WARNING] Payment failed: UTS17624789079773 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 04:32:22] [INFO] M-Pesa Callback received: 
+[2025-11-07 04:32:32] [INFO] Payment initiated: UTS17624791516321 for 254113677613
+[2025-11-07 04:32:37] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb0937492","CheckoutRequestID":"ws_CO_07112025043232573113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 04:32:37] [WARNING] Payment failed: UTS17624791516321 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 04:33:28] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 04:33:46] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 04:34:16] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 04:34:42] [INFO] Payment initiated: UTS17624792699913 for 254791024153
+[2025-11-07 04:35:47] [INFO] Payment initiated: UTS17624793359445 for 254113677613
+[2025-11-07 04:35:56] [INFO] MikroTik connected successfully
+[2025-11-07 04:35:56] [INFO] Hotspot user 254113677613 added successfully
+[2025-11-07 04:35:56] [INFO] Payment confirmed: UTS17624793359445 - User created: 254113677613
+[2025-11-07 04:35:56] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb0937526","CheckoutRequestID":"ws_CO_07112025043548053113677613","ResultCode":0,"ResultDesc":"The service request is processed successfully.","CallbackMetadata":{"Item":[{"Name":"Amount","Value":5},{"Name":"MpesaReceiptNumber","Value":"TK7BX9IIF9"},{"Name":"Balance"},{"Name":"TransactionDate","Value":20251107043555},{"Name":"PhoneNumber","Value":254113677613}]}}}}
+[2025-11-07 04:35:56] [INFO] MikroTik connected successfully
+[2025-11-07 04:35:56] [INFO] Hotspot user 254113677613 added successfully
+[2025-11-07 04:35:56] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 04:35:56] [INFO] User 254113677613 logged in automatically
+[2025-11-07 04:35:56] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 04:35:56] [INFO] User 254113677613 auto-logged in after payment
+[2025-11-07 04:35:56] [INFO] Payment confirmed: UTS17624793359445 - User: 254113677613 - Receipt: TK7BX9IIF9
+[2025-11-07 04:37:55] [INFO] Created 1 voucher(s) for plan 1week_plan: UTS-F9PLI8
+[2025-11-07 04:37:55] [INFO] MikroTik connected successfully
+[2025-11-07 04:37:55] [INFO] MikroTik connected successfully
+[2025-11-07 04:46:14] [INFO] Payment initiated: UTS17624799625269 for 254113677613
+[2025-11-07 04:46:19] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb0937607","CheckoutRequestID":"ws_CO_07112025044614775113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 04:46:19] [WARNING] Payment failed: UTS17624799625269 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 04:49:43] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 04:50:06] [INFO] Payment initiated: UTS17624801933403 for 254113677613
+[2025-11-07 04:50:23] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667211306","CheckoutRequestID":"ws_CO_07112025045006186113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 04:50:23] [WARNING] Payment failed: UTS17624801933403 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 04:54:07] [INFO] Payment initiated: UTS17624804352001 for 254113677613
+[2025-11-07 04:54:12] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb0937675","CheckoutRequestID":"ws_CO_07112025045407767113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 04:54:12] [WARNING] Payment failed: UTS17624804352001 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 04:58:47] [INFO] Payment initiated: UTS17624807141044 for 254113677613
+[2025-11-07 04:58:51] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667211381","CheckoutRequestID":"ws_CO_07112025045847087113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 04:58:51] [WARNING] Payment failed: UTS17624807141044 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 05:03:15] [INFO] Payment initiated: UTS17624809832271 for 254113677613
+[2025-11-07 05:03:15] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667211428","CheckoutRequestID":"ws_CO_07112025050256384113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 05:03:15] [WARNING] Transaction not found for CheckoutRequestID: ws_CO_07112025050256384113677613
+[2025-11-07 05:03:22] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"2243-4d52-a80d-0355c870e3253838","CheckoutRequestID":"ws_CO_07112025050315826113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 05:03:22] [WARNING] Payment failed: UTS17624809832271 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 05:03:56] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 05:04:09] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 05:04:49] [INFO] Payment initiated: UTS17624810771330 for 254113677613
+[2025-11-07 05:04:54] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"2243-4d52-a80d-0355c870e3253865","CheckoutRequestID":"ws_CO_07112025050449871113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 05:04:54] [WARNING] Payment failed: UTS17624810771330 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 05:06:53] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 05:07:14] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 05:13:44] [INFO] Payment initiated: UTS17624816118208 for 254113677613
+[2025-11-07 05:13:48] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667211523","CheckoutRequestID":"ws_CO_07112025051344480113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 05:13:48] [WARNING] Payment failed: UTS17624816118208 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 05:14:07] [WARNING] Invalid voucher attempt: 464664
+[2025-11-07 05:14:11] [WARNING] Invalid voucher attempt: 464664
+[2025-11-07 05:14:14] [WARNING] Invalid voucher attempt: 464664
+[2025-11-07 05:14:22] [INFO] MikroTik connected successfully
+[2025-11-07 05:16:17] [INFO] Payment initiated: UTS17624817643433 for 254113677613
+[2025-11-07 05:16:28] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667211559","CheckoutRequestID":"ws_CO_07112025051617116113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 05:16:28] [WARNING] Payment failed: UTS17624817643433 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 05:16:57] [ERROR] STK push failed: STK push failed
+[2025-11-07 05:17:09] [ERROR] STK push failed: STK push failed
+[2025-11-07 05:18:30] [INFO] Payment initiated: UTS17624818972364 for 254113677613
+[2025-11-07 05:18:38] [INFO] MikroTik connected successfully
+[2025-11-07 05:18:38] [INFO] Hotspot user 254113677613 added successfully
+[2025-11-07 05:18:38] [INFO] Payment confirmed: UTS17624818972364 - User created: 254113677613
+[2025-11-07 05:18:38] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb0937950","CheckoutRequestID":"ws_CO_07112025051830175113677613","ResultCode":0,"ResultDesc":"The service request is processed successfully.","CallbackMetadata":{"Item":[{"Name":"Amount","Value":5},{"Name":"MpesaReceiptNumber","Value":"TK7BX9IN42"},{"Name":"Balance"},{"Name":"TransactionDate","Value":20251107051837},{"Name":"PhoneNumber","Value":254113677613}]}}}}
+[2025-11-07 05:18:38] [INFO] MikroTik connected successfully
+[2025-11-07 05:18:38] [INFO] Hotspot user 254113677613 added successfully
+[2025-11-07 05:18:38] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 05:18:38] [INFO] User 254113677613 logged in automatically
+[2025-11-07 05:18:38] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 05:18:38] [INFO] User 254113677613 auto-logged in after payment
+[2025-11-07 05:18:38] [INFO] Payment confirmed: UTS17624818972364 - User: 254113677613 - Receipt: TK7BX9IN42
+[2025-11-07 05:19:52] [INFO] Created 1 voucher(s) for plan 1week_plan: UTS-4Z7TO4
+[2025-11-07 05:19:52] [INFO] MikroTik connected successfully
+[2025-11-07 05:19:52] [INFO] MikroTik connected successfully
+[2025-11-07 05:20:21] [INFO] Payment initiated: UTS17624820193518 for 254113677613
+[2025-11-07 05:20:30] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb0937973","CheckoutRequestID":"ws_CO_07112025052021398113677613","ResultCode":0,"ResultDesc":"The service request is processed successfully.","CallbackMetadata":{"Item":[{"Name":"Amount","Value":5},{"Name":"MpesaReceiptNumber","Value":"TK7BX9IIH7"},{"Name":"Balance"},{"Name":"TransactionDate","Value":20251107052029},{"Name":"PhoneNumber","Value":254113677613}]}}}}
+[2025-11-07 05:20:30] [INFO] MikroTik connected successfully
+[2025-11-07 05:20:30] [INFO] Hotspot user 254113677613 added successfully
+[2025-11-07 05:20:30] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 05:20:30] [INFO] User 254113677613 logged in automatically
+[2025-11-07 05:20:30] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 05:20:30] [INFO] User 254113677613 auto-logged in after payment
+[2025-11-07 05:20:30] [INFO] Payment confirmed: UTS17624820193518 - User: 254113677613 - Receipt: TK7BX9IIH7
+[2025-11-07 05:21:55] [INFO] Payment initiated: UTS17624821024685 for 254113677613
+[2025-11-07 05:22:02] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb0937985","CheckoutRequestID":"ws_CO_07112025052155161113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 05:22:02] [WARNING] Payment failed: UTS17624821024685 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 05:22:23] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 05:25:09] [INFO] Payment initiated: UTS17624823076172 for 254113677613
+[2025-11-07 05:25:16] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667211650","CheckoutRequestID":"ws_CO_07112025052509152113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 05:25:16] [WARNING] Payment failed/cancelled: UTS17624823076172 - Request Cancelled by user.
+[2025-11-07 05:25:44] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 05:26:02] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 05:26:29] [ERROR] STK push failed: STK push failed
+[2025-11-07 05:26:44] [INFO] Payment initiated: UTS17624824038964 for 254113677613
+[2025-11-07 05:26:49] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667211668","CheckoutRequestID":"ws_CO_07112025052644481113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 05:26:49] [WARNING] Payment failed/cancelled: UTS17624824038964 - Request Cancelled by user.
+[2025-11-07 05:27:15] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 05:28:56] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 05:29:30] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 05:29:59] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 05:30:30] [INFO] Payment initiated: UTS17624826187578 for 254113677613
+[2025-11-07 05:30:38] [INFO] MikroTik connected successfully
+[2025-11-07 05:30:38] [INFO] Hotspot user 254113677613 added successfully
+[2025-11-07 05:30:38] [INFO] Payment confirmed: UTS17624826187578 - User created: 254113677613
+[2025-11-07 05:30:38] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"be7b-4951-8c4a-937fa077d2093958","CheckoutRequestID":"ws_CO_07112025053030874113677613","ResultCode":0,"ResultDesc":"The service request is processed successfully.","CallbackMetadata":{"Item":[{"Name":"Amount","Value":5},{"Name":"MpesaReceiptNumber","Value":"TK7BX9IN4Z"},{"Name":"Balance"},{"Name":"TransactionDate","Value":20251107053037},{"Name":"PhoneNumber","Value":254113677613}]}}}}
+[2025-11-07 05:30:38] [INFO] MikroTik connected successfully
+[2025-11-07 05:30:38] [INFO] Hotspot user 254113677613 added successfully
+[2025-11-07 05:30:38] [INFO] Payment confirmed via callback: UTS17624826187578 - User created: 254113677613 - Receipt: TK7BX9IN4Z
+[2025-11-07 05:31:50] [INFO] Payment initiated: UTS17624826975132 for 254113677613
+[2025-11-07 05:32:16] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667211727","CheckoutRequestID":"ws_CO_07112025053150102113677613","ResultCode":1037,"ResultDesc":"No response from user."}}}
+[2025-11-07 05:32:16] [WARNING] Payment failed: UTS17624826975132 - Code: 1037 - Reason: Timeout in Completing Request
+[2025-11-07 05:33:34] [INFO] Payment initiated: UTS17624828132230 for 254113677613
+[2025-11-07 05:33:41] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb0938086","CheckoutRequestID":"ws_CO_07112025053334529113677613","ResultCode":0,"ResultDesc":"The service request is processed successfully.","CallbackMetadata":{"Item":[{"Name":"Amount","Value":5},{"Name":"MpesaReceiptNumber","Value":"TK7BX9III0"},{"Name":"Balance"},{"Name":"TransactionDate","Value":20251107053341},{"Name":"PhoneNumber","Value":254113677613}]}}}}
+[2025-11-07 05:33:41] [INFO] MikroTik connected successfully
+[2025-11-07 05:33:41] [INFO] Hotspot user 254113677613 added successfully
+[2025-11-07 05:33:42] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 05:33:42] [INFO] User 254113677613 logged in automatically
+[2025-11-07 05:33:42] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 05:33:42] [INFO] User 254113677613 auto-logged in after payment
+[2025-11-07 05:33:42] [INFO] Payment confirmed: UTS17624828132230 - User: 254113677613 - Receipt: TK7BX9III0
+[2025-11-07 05:38:29] [INFO] Payment initiated: UTS17624831087477 for 254113677613
+[2025-11-07 05:38:35] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb0938141","CheckoutRequestID":"ws_CO_07112025053829692113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 05:38:35] [WARNING] Payment failed: UTS17624831087477 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 05:42:40] [INFO] Payment initiated: UTS17624833473074 for 254113677613
+[2025-11-07 05:42:45] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"be7b-4951-8c4a-937fa077d2094082","CheckoutRequestID":"ws_CO_07112025054240332113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 05:42:45] [WARNING] Payment failed: UTS17624833473074 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 05:54:45] [INFO] Payment initiated: UTS17624840846108 for 254113677613
+[2025-11-07 05:54:50] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb0938290","CheckoutRequestID":"ws_CO_07112025055446020113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 05:54:50] [WARNING] Payment failed: UTS17624840846108 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 05:56:40] [INFO] Payment initiated: UTS17624841872668 for 254113677613
+[2025-11-07 05:56:44] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb0938306","CheckoutRequestID":"ws_CO_07112025055640325113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 05:56:44] [WARNING] Payment failed: UTS17624841872668 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 06:00:40] [INFO] MikroTik connected successfully
+[2025-11-07 06:00:40] [INFO] Hotspot user UTS-4Z7TO4 added successfully
+[2025-11-07 06:00:40] [INFO] Hotspot login successful for UTS-4Z7TO4
+[2025-11-07 06:00:40] [INFO] User UTS-4Z7TO4 logged in automatically
+[2025-11-07 06:00:40] [INFO] Voucher activated successfully: UTS-4Z7TO4 - MAC: 12:79:B9:D2:3A:DC
+[2025-11-07 06:04:30] [INFO] Payment initiated: UTS17624846687013 for 254113677613
+[2025-11-07 06:04:37] [INFO] MikroTik connected successfully
+[2025-11-07 06:04:37] [INFO] Hotspot user 254113677613 added successfully
+[2025-11-07 06:04:37] [INFO] Payment confirmed: UTS17624846687013 - User created: 254113677613
+[2025-11-07 06:04:37] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667212007","CheckoutRequestID":"ws_CO_07112025060430495113677613","ResultCode":0,"ResultDesc":"The service request is processed successfully.","CallbackMetadata":{"Item":[{"Name":"Amount","Value":5},{"Name":"MpesaReceiptNumber","Value":"TK7BX9IOQD"},{"Name":"Balance"},{"Name":"TransactionDate","Value":20251107060436},{"Name":"PhoneNumber","Value":254113677613}]}}}}
+[2025-11-07 06:04:37] [INFO] MikroTik connected successfully
+[2025-11-07 06:04:37] [INFO] Hotspot user 254113677613 added successfully
+[2025-11-07 06:04:37] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 06:04:37] [INFO] User 254113677613 logged in automatically
+[2025-11-07 06:04:37] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 06:04:37] [INFO] User 254113677613 auto-logged in after payment
+[2025-11-07 06:04:37] [INFO] Payment confirmed: UTS17624846687013 - User: 254113677613 - Receipt: TK7BX9IOQD
+[2025-11-07 06:07:39] [INFO] Payment initiated: UTS17624848572010 for 254113677613
+[2025-11-07 06:07:49] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb0938448","CheckoutRequestID":"ws_CO_07112025060739206113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 06:07:49] [WARNING] Payment failed: UTS17624848572010 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 06:16:43] [INFO] Payment initiated: UTS17624854018226 for 254113677613
+[2025-11-07 06:16:49] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb0938543","CheckoutRequestID":"ws_CO_07112025061643548113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 06:16:49] [WARNING] Payment failed: UTS17624854018226 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 06:17:38] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 06:18:38] [INFO] Payment initiated: UTS17624855055604 for 254113677613
+[2025-11-07 06:18:44] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"2243-4d52-a80d-0355c870e3254612","CheckoutRequestID":"ws_CO_07112025061837899113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 06:18:44] [WARNING] Payment failed: UTS17624855055604 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 06:19:33] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 06:28:05] [INFO] Payment initiated: UTS17624860735238 for 254113677613
+[2025-11-07 06:28:14] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667212181","CheckoutRequestID":"ws_CO_07112025062805917113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 06:28:14] [WARNING] Payment failed: UTS17624860735238 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 06:28:32] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 06:29:22] [INFO] Payment initiated: UTS17624861499990 for 254113677613
+[2025-11-07 06:29:27] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667212187","CheckoutRequestID":"ws_CO_07112025062922301113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 06:29:27] [WARNING] Payment failed: UTS17624861499990 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 06:29:47] [INFO] Payment initiated: UTS17624861868355 for 254113677613
+[2025-11-07 06:29:55] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"be7b-4951-8c4a-937fa077d2094616","CheckoutRequestID":"ws_CO_07112025062947652113677613","ResultCode":2001,"ResultDesc":"The initiator information is invalid."}}}
+[2025-11-07 06:29:55] [WARNING] Payment failed: UTS17624861868355 - Code: 2001 - Reason: Wrong PIN Entered

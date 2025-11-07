@@ -573,8 +573,61 @@
       }
 
       async function checkPaymentStatus(phoneNumber, transactionRef, planName) {
-        for (let attempts = 1; attempts <= 20; attempts++) {
-          await new Promise((r) => setTimeout(r, 5000));
+        const resultMessages = {
+          0: {
+            title: "Payment Confirmed! ✓",
+            message: `Your ${planName} is now active.`,
+            success: true,
+          },
+          1: {
+            title: "Insufficient Funds",
+            message: "You don't have enough balance to complete this payment.",
+          },
+          1032: {
+            title: "Payment Cancelled",
+            message: "You cancelled the payment request.",
+          },
+          1035: {
+            title: "Transaction Failed",
+            message: "The transaction could not be completed.",
+          },
+          1037: {
+            title: "Timeout",
+            message: "You did not respond in time. Please try again.",
+          },
+          2001: {
+            title: "Wrong PIN Entered",
+            message: "You entered an incorrect PIN. Please try again.",
+          },
+          2002: {
+            title: "Payment Cancelled",
+            message: "You cancelled the payment request.",
+          },
+          2003: {
+            title: "STK Push Not Accepted",
+            message: "You declined the payment prompt.",
+          },
+          2005: {
+            title: "User Busy",
+            message: "Your phone was busy. Please try again.",
+          },
+          9999: {
+            title: "Unknown Error",
+            message: "An unknown error occurred. Please try again.",
+          },
+        };
+
+        const pollingDuration = 60000; // 60 seconds
+        const pollingInterval = 1000; // 1 second
+        const startTime = Date.now();
+
+        showModal(
+          "Waiting for Payment Confirmation",
+          `<div class="loading-spinner"></div><p style="text-align: center; margin-top: 1rem;">Please approve the M-Pesa prompt on your phone.<br>We'll check for confirmation for up to <strong>60 seconds</strong>.</p>`,
+          null
+        );
+
+        while (Date.now() - startTime < pollingDuration) {
           try {
             const res = await fetch(PAYMENT_API_URL, {
               method: "POST",
@@ -585,54 +638,68 @@
                 transaction_ref: transactionRef,
               }),
             });
-            const data = await res.json();
 
-            if (data.status === "success" && data.payment_confirmed) {
+            const data = await res.json();
+            console.log("Payment status check:", data);
+
+            if (data.result_code !== undefined && data.result_code !== null) {
               closeModal();
 
-              const username = data.username || phoneNumber;
-              const password = data.password || transactionRef.substring(0, 8);
+              const result = resultMessages[data.result_code] || {
+                title: "Payment Status Received",
+                message: data.result_desc || "Payment status received.",
+                success: data.result_code === 0,
+              };
 
-              const { linkLogin } = getHotspotVariables();
-              const loginUrl = `${linkLogin}?username=${encodeURIComponent(
-                username
-              )}&password=${encodeURIComponent(password)}`;
+              if (result.success && data.payment_confirmed) {
+                const username = data.username || phoneNumber;
+                const password =
+                  data.password || transactionRef.substring(0, 8);
+                const { linkLogin } = getHotspotVariables();
+                const loginUrl = `${linkLogin}?username=${encodeURIComponent(
+                  username
+                )}&password=${encodeURIComponent(password)}`;
 
-              showModal(
-                "Payment Confirmed! ✓",
-                `<p>Your ${planName} is now active!</p><p style="margin-top: 0.5rem;">Username: <strong>${username}</strong></p>`,
-                [
-                  {
-                    text: "Connect Now",
-                    type: "confirm",
-                    onClick: () => (window.location.href = loginUrl),
-                  },
-                ]
-              );
+                showModal(
+                  result.title,
+                  `<p>${result.message}</p><p style="margin-top: 0.5rem;">Username: <strong>${username}</strong></p>`,
+                  [
+                    {
+                      text: "Connect Now",
+                      type: "confirm",
+                      onClick: () => (window.location.href = loginUrl),
+                    },
+                  ]
+                );
+              } else {
+                showModal(
+                  result.title,
+                  `<p>${result.message}</p><p>If money was deducted, please contact support with your phone number.</p>`,
+                  [{ text: "OK", type: "confirm", onClick: closeModal }]
+                );
+              }
+
               return true;
             }
-
-            showModal(
-              "",
-              `<div class="loading-spinner"></div><p style="text-align: center; margin-top: 1rem;">Please approve payment on your phone.<br><strong>Attempt ${attempts}/20</strong>...</p>`,
-              null
-            );
           } catch (error) {
             console.error("Payment check error:", error);
             closeModal();
             showModal(
               "Error",
-              "<p>Failed to check payment status. Please contact support.</p>",
+              "<p>Failed to check payment status due to a network error. Please contact support.</p>",
               [{ text: "OK", type: "confirm", onClick: closeModal }]
             );
             return false;
           }
+
+          await new Promise((r) => setTimeout(r, pollingInterval));
         }
 
+        // Timeout reached
         closeModal();
         showModal(
-          "Payment Timeout",
-          "<p>Payment could not be confirmed within the expected time. If money was deducted, please contact support with your phone number.</p>",
+          "Polling Timed Out",
+          `<p>We did not receive a final payment confirmation within 30 seconds.</p><p>Please check your phone for any late confirmation messages, and contact support if your money was deducted.</p>`,
           [{ text: "OK", type: "confirm", onClick: closeModal }]
         );
         return false;
@@ -725,75 +792,76 @@
       }
 
       document
-  .getElementById("voucherLoginForm")
-  .addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const voucherCode = document.getElementById("voucherCode").value.trim();
-    const { mac, ip, linkLogin } = getHotspotVariables();
+        .getElementById("voucherLoginForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const voucherCode = document
+            .getElementById("voucherCode")
+            .value.trim();
+          const { mac, ip, linkLogin } = getHotspotVariables();
 
-    if (!voucherCode) {
-      showModal("Invalid Input", "<p>Please enter a voucher code.</p>", [
-        { text: "OK", type: "confirm", onClick: closeModal },
-      ]);
-      return;
-    }
+          if (!voucherCode) {
+            showModal("Invalid Input", "<p>Please enter a voucher code.</p>", [
+              { text: "OK", type: "confirm", onClick: closeModal },
+            ]);
+            return;
+          }
 
-    showLoading("Verifying voucher code...");
+          showLoading("Verifying voucher code...");
 
-    try {
-      const res = await fetch(VOUCHER_API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          voucher_code: voucherCode,
-          mac_address: mac,
-          ip_address: ip,
-        }),
-      });
+          try {
+            const res = await fetch(VOUCHER_API_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                voucher_code: voucherCode,
+                mac_address: mac,
+                ip_address: ip,
+              }),
+            });
 
-      const data = await res.json();
-      closeModal();
+            const data = await res.json();
+            closeModal();
 
-      if (data.status === "success" || data.type === "success") {
-        const username = data.username || voucherCode;
-        const password = data.password || voucherCode;
-        const loginUrl = `${linkLogin}?username=${encodeURIComponent(
-          username
-        )}&password=${encodeURIComponent(password)}`;
+            if (data.status === "success" || data.type === "success") {
+              const username = data.username || voucherCode;
+              const password = data.password || voucherCode;
+              const loginUrl = `${linkLogin}?username=${encodeURIComponent(
+                username
+              )}&password=${encodeURIComponent(password)}`;
 
-        showModal(
-          "Voucher Accepted! ✓",
-          `<p>Connecting you now...</p><p style="margin-top: 0.5rem; font-size: 0.875rem;">Username: <strong>${username}</strong></p>`,
-          [
-            {
-              text: "Continue",
-              type: "confirm",
-              onClick: () => {
-                window.location.href = loginUrl;
-              },
-            },
-          ]
-        );
-      } else {
-        showModal(
-          "Invalid Voucher",
-          `<p>${
-            data.message || "Voucher not found, expired, or already used."
-          }</p>`,
-          [{ text: "Try Again", type: "confirm", onClick: closeModal }]
-        );
-      }
-    } catch (error) {
-      console.error("Voucher verification error:", error);
-      closeModal();
-      showModal(
-        "Connection Error",
-        "<p>Could not reach the server. Please check your connection and try again.</p>",
-        [{ text: "OK", type: "confirm", onClick: closeModal }]
-      );
-    }
-  });
-
+              showModal(
+                "Voucher Accepted! ✓",
+                `<p>Connecting you now...</p><p style="margin-top: 0.5rem; font-size: 0.875rem;">Username: <strong>${username}</strong></p>`,
+                [
+                  {
+                    text: "Continue",
+                    type: "confirm",
+                    onClick: () => {
+                      window.location.href = loginUrl;
+                    },
+                  },
+                ]
+              );
+            } else {
+              showModal(
+                "Invalid Voucher",
+                `<p>${
+                  data.message || "Voucher not found, expired, or already used."
+                }</p>`,
+                [{ text: "Try Again", type: "confirm", onClick: closeModal }]
+              );
+            }
+          } catch (error) {
+            console.error("Voucher verification error:", error);
+            closeModal();
+            showModal(
+              "Connection Error",
+              "<p>Could not reach the server. Please check your connection and try again.</p>",
+              [{ text: "OK", type: "confirm", onClick: closeModal }]
+            );
+          }
+        });
 
       document.getElementById("modal").addEventListener("click", (e) => {
         if (e.target.id === "modal") closeModal();

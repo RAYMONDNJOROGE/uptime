@@ -141,56 +141,70 @@ function initiatePayment($data) {
 
 function checkPaymentStatus($data) {
     global $HOTSPOT_PROFILES;
-    
+
     $phoneNumber = $data['phone_number'] ?? '';
     $transactionRef = $data['transaction_ref'] ?? '';
-    
+
     if (empty($phoneNumber) || empty($transactionRef)) {
         echo json_encode(['status' => 'error', 'message' => 'Invalid parameters']);
         return;
     }
-    
+
     $transactions = getTransactions();
-    
+
     if (!isset($transactions[$transactionRef])) {
         echo json_encode(['status' => 'error', 'message' => 'Transaction not found']);
         return;
     }
-    
+
     $transaction = $transactions[$transactionRef];
-    
+
+    // ✅ If already confirmed, return success immediately
     if ($transaction['status'] === 'confirmed') {
         echo json_encode([
-            'status' => 'success',
+            'status' => 'confirmed',
             'payment_confirmed' => true,
+            'result_code' => 0,
+            'result_desc' => 'Success',
             'username' => $transaction['username'] ?? $phoneNumber,
             'password' => $transaction['password'] ?? substr($transactionRef, 0, 8)
         ]);
         return;
     }
-    
-    // Query M-Pesa for transaction status
+
+    // ✅ If callback already provided a result_code, return it
+    if (isset($transaction['result_code'])) {
+        echo json_encode([
+            'status' => $transaction['status'] ?? 'pending',
+            'payment_confirmed' => false,
+            'result_code' => $transaction['result_code'],
+            'result_desc' => $transaction['result_desc'] ?? 'Payment status received'
+        ]);
+        return;
+    }
+
+    // ✅ Otherwise, query Safaricom for status
     $accessToken = getMpesaAccessToken();
-    
+
     if (!$accessToken) {
         echo json_encode(['status' => 'error', 'message' => 'Unable to verify payment']);
         return;
     }
-    
+
     $queryUrl = MPESA_ENVIRONMENT === 'production'
         ? 'https://api.safaricom.co.ke/mpesa/stkpushquery/v1/query'
         : 'https://sandbox.safaricom.co.ke/mpesa/stkpushquery/v1/query';
-    
+
     $timestamp = date('YmdHis');
     $password = base64_encode(MPESA_SHORTCODE . MPESA_PASSKEY . $timestamp);
-    
+
     $queryData = [
         'BusinessShortCode' => MPESA_SHORTCODE,
         'Password' => $password,
         'Timestamp' => $timestamp,
         'CheckoutRequestID' => $transaction['checkout_request_id']
     ];
-    
+
     $curl = curl_init($queryUrl);
     curl_setopt($curl, CURLOPT_HTTPHEADER, [
         'Authorization: Bearer ' . $accessToken,
@@ -200,23 +214,23 @@ function checkPaymentStatus($data) {
     curl_setopt($curl, CURLOPT_POST, true);
     curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($queryData));
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-    
+
     $response = curl_exec($curl);
     curl_close($curl);
-    
+
     $result = json_decode($response, true);
-    
-    if (isset($result['ResultCode']) && $result['ResultCode'] === '0') {
-        // Payment successful - create hotspot user
+    $resultCode = $result['ResultCode'] ?? null;
+    $resultDesc = $result['ResultDesc'] ?? 'Payment status received';
+
+    // ✅ If payment is successful, create hotspot user
+    if ($resultCode === '0') {
         $planName = $transaction['plan_name'];
         $profile = $HOTSPOT_PROFILES[$planName];
-        
         $username = $phoneNumber;
         $password = substr($transactionRef, 0, 8);
-        
-        // Connect to MikroTik and add user
+
         $mikrotik = new MikrotikAPI(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS, MIKROTIK_PORT);
-        
+
         if ($mikrotik->connect()) {
             $success = $mikrotik->addHotspotUser(
                 $username,
@@ -224,23 +238,25 @@ function checkPaymentStatus($data) {
                 $profile['profile'],
                 $transaction['mac_address']
             );
-            
             $mikrotik->disconnect();
-            
+
             if ($success) {
-                // Update transaction status
                 $transactions[$transactionRef]['status'] = 'confirmed';
                 $transactions[$transactionRef]['confirmed_at'] = date('Y-m-d H:i:s');
                 $transactions[$transactionRef]['username'] = $username;
                 $transactions[$transactionRef]['password'] = $password;
                 $transactions[$transactionRef]['mpesa_receipt'] = $result['MpesaReceiptNumber'] ?? '';
+                $transactions[$transactionRef]['result_code'] = 0;
+                $transactions[$transactionRef]['result_desc'] = 'Success';
                 saveTransactions($transactions);
-                
-                logMessage("Payment confirmed: $transactionRef - User created: $username", 'INFO');
-                
+
+                logMessage("Payment confirmed via query: $transactionRef - User created: $username", 'INFO');
+
                 echo json_encode([
-                    'status' => 'success',
+                    'status' => 'confirmed',
                     'payment_confirmed' => true,
+                    'result_code' => 0,
+                    'result_desc' => 'Success',
                     'username' => $username,
                     'password' => $password
                 ]);
@@ -252,12 +268,17 @@ function checkPaymentStatus($data) {
             logMessage("Failed to connect to MikroTik for $transactionRef", 'ERROR');
         }
     }
-    
+
+    // ✅ Save failed or pending result
+    $transactions[$transactionRef]['result_code'] = $resultCode;
+    $transactions[$transactionRef]['result_desc'] = $resultDesc;
+    $transactions[$transactionRef]['status'] = 'failed';
+    saveTransactions($transactions);
+
     echo json_encode([
-        'status' => 'success',
+        'status' => 'failed',
         'payment_confirmed' => false,
-        'message' => 'Payment pending'
+        'result_code' => $resultCode,
+        'result_desc' => $resultDesc
     ]);
 }
-
-?>
