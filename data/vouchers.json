@@ -9,5 +9,137 @@
         "used_at": "2025-11-06 23:18:37",
         "used_by_mac": "$(mac)",
         "used_by_ip": "$(ip)"
+    },
+    "UTS-YV157X": {
+        "code": "UTS-YV157X",
+        "plan_name": "24hour_plan",
+        "status": "used",
+        "created_at": "2025-11-07 00:22:49",
+        "expires_at": "2025-12-07 00:22:49",
+        "created_by": "admin",
+        "used_at": "2025-11-07 00:23:10",
+        "used_by_mac": "$(mac)",
+        "used_by_ip": "$(ip)"
+    },
+    "UTS-S9SNTP": {
+        "code": "UTS-S9SNTP",
+        "plan_name": "30min_plan",
+        "status": "used",
+        "created_at": "2025-11-07 01:39:20",
+        "expires_at": "2025-12-07 01:39:20",
+        "created_by": "admin",
+        "used_at": "2025-11-07 01:39:40",
+        "used_by_mac": "12:79:B9:D2:3A:DC",
+        "used_by_ip": "174.0.0.19"
+    },
+    "UTS-XART0D": {
+        "code": "UTS-XART0D",
+        "plan_name": "30min_plan",
+        "status": "used",
+        "created_at": "2025-11-07 02:10:41",
+        "expires_at": "2025-12-07 02:10:41",
+        "created_by": "admin",
+        "used_at": "2025-11-07 02:11:06",
+        "used_by_mac": "12:79:B9:D2:3A:DC",
+        "used_by_ip": "174.0.0.19"
+    },
+    "UTS-CIB42Y": {
+        "code": "UTS-CIB42Y",
+        "plan_name": "30min_plan",
+        "status": "used",
+        "created_at": "2025-11-07 02:36:32",
+        "expires_at": "2025-12-07 02:36:32",
+        "created_by": "admin",
+        "used_at": "2025-11-07 02:37:18",
+        "used_by_mac": "12:79:B9:D2:3A:DC",
+        "used_by_ip": "174.0.0.19"
+    },
+    "UTS-JHCY51": {
+        "code": "UTS-JHCY51",
+        "plan_name": "2hour_plan",
+        "status": "used",
+        "created_at": "2025-11-07 03:19:53",
+        "expires_at": "2025-12-07 03:19:53",
+        "created_by": "admin",
+        "used_at": "2025-11-07 03:20:23",
+        "used_by_mac": "12:79:B9:D2:3A:DC",
+        "used_by_ip": "174.0.0.19"
+    },
+    "UTS-V9XYMA": {
+        "code": "UTS-V9XYMA",
+        "plan_name": "30min_plan",
+        "status": "used",
+        "created_at": "2025-11-07 03:38:29",
+        "expires_at": "2025-12-07 03:38:29",
+        "created_by": "admin",
+        "used_at": "2025-11-07 03:39:21",
+        "used_by_mac": "12:79:B9:D2:3A:DC",
+        "used_by_ip": "174.0.0.19"
+    },
+    "UTS-I6R90V": {
+        "code": "UTS-I6R90V",
+        "plan_name": "30min_plan",
+        "status": "unused",
+        "created_at": "2025-11-07 03:39:56",
+        "expires_at": "2025-12-07 03:39:56",
+        "created_by": "admin",
+        "used_at": null,
+        "used_by_mac": null,
+        "used_by_ip": null
+    },
+    "UTS-S7QPVS": {
+        "code": "UTS-S7QPVS",
+        "plan_name": "30min_plan",
+        "status": "used",
+        "created_at": "2025-11-07 03:54:38",
+        "expires_at": "2025-12-07 03:54:38",
+        "created_by": "admin",
+        "used_at": "2025-11-07 03:55:06",
+        "used_by_mac": "12:79:B9:D2:3A:DC",
+        "used_by_ip": "174.0.0.19"
+    },
+    "UTS-10GKV9": {
+        "code": "UTS-10GKV9",
+        "plan_name": "30min_plan",
+        "status": "used",
+        "created_at": "2025-11-07 03:56:19",
+        "expires_at": "2025-12-07 03:56:19",
+        "created_by": "admin",
+        "used_at": "2025-11-07 03:58:13",
+        "used_by_mac": "12:79:B9:D2:3A:DC",
+        "used_by_ip": "174.0.0.19"
+    },
+    "UTS-4PTXK0": {
+        "code": "UTS-4PTXK0",
+        "plan_name": "30min_plan",
+        "status": "used",
+        "created_at": "2025-11-07 04:01:31",
+        "expires_at": "2025-12-07 04:01:31",
+        "created_by": "admin",
+        "used_at": "2025-11-07 04:02:05",
+        "used_by_mac": "12:79:B9:D2:3A:DC",
+        "used_by_ip": "174.0.0.19"
+    },
+    "UTS-KJNMDP": {
+        "code": "UTS-KJNMDP",
+        "plan_name": "1week_plan",
+        "status": "used",
+        "created_at": "2025-11-07 04:07:40",
+        "expires_at": "2025-12-07 04:07:40",
+        "created_by": "admin",
+        "used_at": "2025-11-07 04:07:58",
+        "used_by_mac": "12:79:B9:D2:3A:DC",
+        "used_by_ip": "174.0.0.19"
+    },
+    "UTS-W8EQ3Q": {
+        "code": "UTS-W8EQ3Q",
+        "plan_name": "1week_plan",
+        "status": "unused",
+        "created_at": "2025-11-07 04:09:16",
+        "expires_at": "2025-12-07 04:09:16",
+        "created_by": "admin",
+        "used_at": null,
+        "used_by_mac": null,
+        "used_by_ip": null
     }
 }

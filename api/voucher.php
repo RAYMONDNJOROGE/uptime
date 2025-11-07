@@ -1,7 +1,7 @@
 <?php
 /**
  * Voucher Verification API
- * Handles voucher code validation and user creation
+ * Handles voucher code validation and automatic hotspot login
  */
 
 header('Content-Type: application/json');
@@ -19,15 +19,14 @@ require_once '../MikrotikAPI.php';
 $input = json_decode(file_get_contents('php://input'), true);
 
 $voucherCode = strtoupper(trim($input['voucher_code'] ?? ''));
-$macAddress = $input['mac_address'] ?? '';
-$ipAddress = $input['ip_address'] ?? '';
+$macAddress  = $input['mac_address'] ?? '';
+$ipAddress   = $input['ip_address'] ?? '';
 
 // Validate input
 if (empty($voucherCode)) {
     echo json_encode([
         'status' => 'error',
-        'type' => 'error',
-        'message' => 'Voucher code is required'
+        'message' => 'Voucher code is required.'
     ]);
     exit;
 }
@@ -40,101 +39,100 @@ if (!isset($vouchers[$voucherCode])) {
     logMessage("Invalid voucher attempt: $voucherCode", 'WARNING');
     echo json_encode([
         'status' => 'error',
-        'type' => 'error',
-        'message' => 'Invalid voucher code'
+        'message' => 'Invalid voucher code.'
     ]);
     exit;
 }
 
 $voucher = $vouchers[$voucherCode];
 
-// Check if voucher is already used
+// Check if voucher already used
 if ($voucher['status'] === 'used') {
-    logMessage("Attempted to use already used voucher: $voucherCode", 'WARNING');
+    logMessage("Attempted to reuse voucher: $voucherCode", 'WARNING');
     echo json_encode([
         'status' => 'error',
-        'type' => 'error',
-        'message' => 'This voucher has already been used'
+        'message' => 'This voucher has already been used.'
     ]);
     exit;
 }
 
-// Check if voucher is expired
+// Check expiry
 if (isset($voucher['expires_at']) && strtotime($voucher['expires_at']) < time()) {
     logMessage("Attempted to use expired voucher: $voucherCode", 'WARNING');
     echo json_encode([
         'status' => 'error',
-        'type' => 'error',
-        'message' => 'This voucher has expired'
+        'message' => 'This voucher has expired.'
     ]);
     exit;
 }
 
-// Get profile information
+// Get hotspot profile
 global $HOTSPOT_PROFILES;
-$planName = $voucher['plan_name'];
+$planName = $voucher['plan_name'] ?? '';
 
 if (!isset($HOTSPOT_PROFILES[$planName])) {
-    logMessage("Invalid plan for voucher: $voucherCode - Plan: $planName", 'ERROR');
+    logMessage("Invalid plan for voucher $voucherCode - Plan: $planName", 'ERROR');
     echo json_encode([
         'status' => 'error',
-        'type' => 'error',
-        'message' => 'Invalid voucher configuration'
+        'message' => 'Invalid voucher configuration.'
     ]);
     exit;
 }
 
 $profile = $HOTSPOT_PROFILES[$planName];
 
-// Create hotspot user
+// Prepare credentials
 $username = $voucherCode;
 $password = $voucherCode;
 
+// Connect to MikroTik
 $mikrotik = new MikrotikAPI(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS, MIKROTIK_PORT);
 
 if (!$mikrotik->connect()) {
-    logMessage("Failed to connect to MikroTik for voucher: $voucherCode", 'ERROR');
+    logMessage("Failed to connect to MikroTik for voucher $voucherCode", 'ERROR');
     echo json_encode([
         'status' => 'error',
-        'type' => 'error',
-        'message' => 'Connection error. Please try again or contact support.'
+        'message' => 'Unable to connect to router. Please try again.'
     ]);
     exit;
 }
 
-$success = $mikrotik->addHotspotUser(
+// Remove any previous user
+$mikrotik->removeHotspotUser($username);
+
+// Create hotspot user and auto-login
+$userCreated = $mikrotik->addHotspotUser(
     $username,
     $password,
     $profile['profile'],
-    $macAddress
+    $macAddress,
+    $ipAddress
 );
 
 $mikrotik->disconnect();
 
-if ($success) {
+if ($userCreated) {
     // Mark voucher as used
     $vouchers[$voucherCode]['status'] = 'used';
     $vouchers[$voucherCode]['used_at'] = date('Y-m-d H:i:s');
     $vouchers[$voucherCode]['used_by_mac'] = $macAddress;
     $vouchers[$voucherCode]['used_by_ip'] = $ipAddress;
     saveVouchers($vouchers);
-    
-    logMessage("Voucher used successfully: $voucherCode - MAC: $macAddress", 'INFO');
-    
+
+    logMessage("Voucher activated successfully: $voucherCode - MAC: $macAddress", 'INFO');
+
     echo json_encode([
         'status' => 'success',
-        'type' => 'success',
-        'message' => 'Voucher accepted! You are now connected.',
+        'message' => 'Voucher accepted! You are now connected to the internet.',
         'username' => $username,
-        'password' => $password
+        'password' => $password,
+        'auto_login' => true,
     ]);
 } else {
     logMessage("Failed to create hotspot user for voucher: $voucherCode", 'ERROR');
     echo json_encode([
         'status' => 'error',
-        'type' => 'error',
         'message' => 'Failed to activate voucher. Please try again.'
     ]);
 }
-
 ?>

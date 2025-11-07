@@ -22,7 +22,7 @@ define('MPESA_CONSUMER_KEY', '1bvBpyAQdFgnAxVgrPOoE0wNlnqdgqmTGw2ifirVgeG0gscJ')
 define('MPESA_CONSUMER_SECRET', 'hu1EnuMQO4asAmvwqRn65c5OZwDqTnYAz9hA5NQaL0GopQQOAkuJjRhGWFtOAiak');
 define('MPESA_SHORTCODE', '174379'); // Your paybill/till number
 define('MPESA_PASSKEY', 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919');
-define('MPESA_CALLBACK_URL', 'https://yourdomain.com/api/callback.php');
+define('MPESA_CALLBACK_URL', 'https://550ba415eeb2.ngrok-free.app/api/callback.php');
 define('MPESA_ENVIRONMENT', 'sandbox'); // 'sandbox' or 'production'
 
 // ============================================

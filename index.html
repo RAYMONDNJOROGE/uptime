@@ -13,7 +13,8 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
         text-align: center;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
@@ -339,8 +340,12 @@
       }
 
       @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
       }
     </style>
   </head>
@@ -352,9 +357,14 @@
     <main>
       <section class="intro-section">
         <h3>Welcome to Uptime Hotspot</h3>
-        <p>Connect instantly now! Click on the 'Connect Now' button to start.</p>
         <p>
-          Customer Care: <a href="tel:+254791024153" style="text-decoration: none;">+254 791 024 153</a>
+          Connect instantly now! Click on the 'Connect Now' button to start.
+        </p>
+        <p>
+          Customer Care:
+          <a href="tel:+254791024153" style="text-decoration: none"
+            >+254 791 024 153</a
+          >
         </p>
       </section>
 
@@ -366,11 +376,14 @@
             <p class="speed">@ 3 Mbps</p>
           </div>
           <div class="card-footer">
-            <button class="price-button" onclick="handlePlanSelection(this)" 
-              data-plan-name="30min_plan" 
-              data-validity="30min" 
-              data-amount="5" 
-              data-speed="3mbps">
+            <button
+              class="price-button"
+              onclick="handlePlanSelection(this)"
+              data-plan-name="30min_plan"
+              data-validity="30min"
+              data-amount="5"
+              data-speed="3mbps"
+            >
               Connect Now
             </button>
           </div>
@@ -383,11 +396,14 @@
             <p class="speed">@ 3 Mbps</p>
           </div>
           <div class="card-footer">
-            <button class="price-button" onclick="handlePlanSelection(this)" 
-              data-plan-name="2hour_plan" 
-              data-validity="2hour" 
-              data-amount="10" 
-              data-speed="3mbps">
+            <button
+              class="price-button"
+              onclick="handlePlanSelection(this)"
+              data-plan-name="2hour_plan"
+              data-validity="2hour"
+              data-amount="10"
+              data-speed="3mbps"
+            >
               Connect Now
             </button>
           </div>
@@ -400,11 +416,14 @@
             <p class="speed">@ 3 Mbps</p>
           </div>
           <div class="card-footer">
-            <button class="price-button" onclick="handlePlanSelection(this)" 
-              data-plan-name="12hour_plan" 
-              data-validity="12hour" 
-              data-amount="20" 
-              data-speed="3mbps">
+            <button
+              class="price-button"
+              onclick="handlePlanSelection(this)"
+              data-plan-name="12hour_plan"
+              data-validity="12hour"
+              data-amount="20"
+              data-speed="3mbps"
+            >
               Connect Now
             </button>
           </div>
@@ -417,11 +436,14 @@
             <p class="speed">@ 3 Mbps</p>
           </div>
           <div class="card-footer">
-            <button class="price-button" onclick="handlePlanSelection(this)" 
-              data-plan-name="24hour_plan" 
-              data-validity="24hour" 
-              data-amount="40" 
-              data-speed="3mbps">
+            <button
+              class="price-button"
+              onclick="handlePlanSelection(this)"
+              data-plan-name="24hour_plan"
+              data-validity="24hour"
+              data-amount="40"
+              data-speed="3mbps"
+            >
               Connect Now
             </button>
           </div>
@@ -434,11 +456,14 @@
             <p class="speed">@ 3 Mbps</p>
           </div>
           <div class="card-footer">
-            <button class="price-button" onclick="handlePlanSelection(this)" 
-              data-plan-name="1week_plan" 
-              data-validity="1week" 
-              data-amount="240" 
-              data-speed="3mbps">
+            <button
+              class="price-button"
+              onclick="handlePlanSelection(this)"
+              data-plan-name="1week_plan"
+              data-validity="1week"
+              data-amount="240"
+              data-speed="3mbps"
+            >
               Connect Now
             </button>
           </div>
@@ -448,7 +473,14 @@
       <div class="login-container">
         <h2>Voucher Login</h2>
         <form id="voucherLoginForm">
-          <input type="text" id="voucherCode" name="voucherCode" placeholder="Voucher Code" required class="form-input" />
+          <input
+            type="text"
+            id="voucherCode"
+            name="voucherCode"
+            placeholder="Voucher Code"
+            required
+            class="form-input"
+          />
           <input type="hidden" name="client_mac" value="$(mac)" />
           <input type="hidden" name="client_ip" value="$(ip)" />
           <input type="hidden" name="link_login" value="$(link-login)" />
@@ -459,15 +491,18 @@
       </div>
 
       <div class="admin-link">
-        <a href="admin/login.php" target="_blank"> 
-          🛡️ Admin Login 
-        </a>
+        <a href="admin/login.php" target="_blank"> 🛡️ Admin Login </a>
       </div>
     </main>
 
     <footer>
       <p>&copy; 2025 UPTIME HOTSPOT | All rights reserved.</p>
-      <p>Software Provided by Uptime Tech Masters | Contact: <a href="tel:+254791024153" style="text-decoration: none;">+254 791 024 153</a></p>
+      <p>
+        Software Provided by Uptime Tech Masters | Contact:
+        <a href="tel:+254791024153" style="text-decoration: none"
+          >+254 791 024 153</a
+        >
+      </p>
     </footer>
 
     <div id="modal" class="modal">
@@ -480,22 +515,25 @@
 
     <script>
       // CONFIGURATION - UPDATE THESE VALUES
-      const API_BASE_URL = "http://localhost:3000/"; // Your domain where the PHP service is hosted
+      const API_BASE_URL = "https://550ba415eeb2.ngrok-free.app/"; // Your domain where the PHP service is hosted
       const PAYMENT_API_URL = API_BASE_URL + "api/payment.php";
       const VOUCHER_API_URL = API_BASE_URL + "api/voucher.php";
-      
+
       function getHotspotVariables() {
-        const mac = document.querySelector('input[name="client_mac"]').value || "00:00:00:00:00:00";
-        const ip = document.querySelector('input[name="client_ip"]').value || "127.0.0.1";
-        const linkLogin = document.querySelector('input[name="link_login"]').value || "http://192.168.88.1/login";
-        return { mac, ip, linkLogin };
+        return {
+          mac: document.querySelector('input[name="client_mac"]').value,
+          ip: document.querySelector('input[name="client_ip"]').value,
+          linkLogin: document.querySelector('input[name="link_login"]').value,
+        };
       }
 
       function formatPhoneNumber(phoneNumber) {
         phoneNumber = phoneNumber.replace(/\s|-/g, "").trim();
         if (phoneNumber.startsWith("+")) phoneNumber = phoneNumber.slice(1);
-        if (phoneNumber.startsWith("0") && phoneNumber.length === 10) return "254" + phoneNumber.slice(1);
-        if (phoneNumber.length === 9 && /^[71]/.test(phoneNumber)) return "254" + phoneNumber;
+        if (phoneNumber.startsWith("0") && phoneNumber.length === 10)
+          return "254" + phoneNumber.slice(1);
+        if (phoneNumber.length === 9 && /^[71]/.test(phoneNumber))
+          return "254" + phoneNumber;
         return phoneNumber;
       }
 
@@ -510,7 +548,7 @@
         modalButtons.innerHTML = "";
 
         if (buttons) {
-          buttons.forEach(btn => {
+          buttons.forEach((btn) => {
             const button = document.createElement("button");
             button.className = "modal-button " + (btn.type || "");
             button.textContent = btn.text;
@@ -527,66 +565,74 @@
       }
 
       function showLoading(message) {
-        showModal("", `<div class="loading-spinner"></div><p style="text-align: center; margin-top: 1rem;">${message}</p>`, null);
+        showModal(
+          "",
+          `<div class="loading-spinner"></div><p style="text-align: center; margin-top: 1rem;">${message}</p>`,
+          null
+        );
       }
 
       async function checkPaymentStatus(phoneNumber, transactionRef, planName) {
         for (let attempts = 1; attempts <= 20; attempts++) {
-          await new Promise(r => setTimeout(r, 5000));
+          await new Promise((r) => setTimeout(r, 5000));
           try {
             const res = await fetch(PAYMENT_API_URL, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ 
+              body: JSON.stringify({
                 action: "check_status",
                 phone_number: phoneNumber,
-                transaction_ref: transactionRef
-              })
+                transaction_ref: transactionRef,
+              }),
             });
             const data = await res.json();
-            
+
             if (data.status === "success" && data.payment_confirmed) {
               closeModal();
-              
+
               const username = data.username || phoneNumber;
               const password = data.password || transactionRef.substring(0, 8);
-              
+
               const { linkLogin } = getHotspotVariables();
-              const loginUrl = `${linkLogin}?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
-              
+              const loginUrl = `${linkLogin}?username=${encodeURIComponent(
+                username
+              )}&password=${encodeURIComponent(password)}`;
+
               showModal(
                 "Payment Confirmed! ✓",
                 `<p>Your ${planName} is now active!</p><p style="margin-top: 0.5rem;">Username: <strong>${username}</strong></p>`,
-                [{ 
-                  text: "Connect Now", 
-                  type: "confirm", 
-                  onClick: () => window.location.href = loginUrl
-                }]
+                [
+                  {
+                    text: "Connect Now",
+                    type: "confirm",
+                    onClick: () => (window.location.href = loginUrl),
+                  },
+                ]
               );
               return true;
             }
-            
+
             showModal(
-              "", 
-              `<div class="loading-spinner"></div><p style="text-align: center; margin-top: 1rem;">Please approve payment on your phone.<br><strong>Attempt ${attempts}/20</strong>...</p>`, 
+              "",
+              `<div class="loading-spinner"></div><p style="text-align: center; margin-top: 1rem;">Please approve payment on your phone.<br><strong>Attempt ${attempts}/20</strong>...</p>`,
               null
             );
           } catch (error) {
             console.error("Payment check error:", error);
             closeModal();
             showModal(
-              "Error", 
-              "<p>Failed to check payment status. Please contact support.</p>", 
+              "Error",
+              "<p>Failed to check payment status. Please contact support.</p>",
               [{ text: "OK", type: "confirm", onClick: closeModal }]
             );
             return false;
           }
         }
-        
+
         closeModal();
         showModal(
-          "Payment Timeout", 
-          "<p>Payment could not be confirmed within the expected time. If money was deducted, please contact support with your phone number.</p>", 
+          "Payment Timeout",
+          "<p>Payment could not be confirmed within the expected time. If money was deducted, please contact support with your phone number.</p>",
           [{ text: "OK", type: "confirm", onClick: closeModal }]
         );
         return false;
@@ -604,18 +650,24 @@
           `<p class="modal-text">Speed: ${speed}</p><p class="modal-text">Enter your Safaricom phone number:</p><input type="text" id="phoneInput" placeholder="e.g. 0712345678 or 0123456789" class="form-input" style="margin-top: 0.5rem;" />`,
           [
             { text: "Cancel", type: "cancel", onClick: closeModal },
-            { 
-              text: "Pay Now", 
-              type: "confirm", 
+            {
+              text: "Pay Now",
+              type: "confirm",
               onClick: async () => {
                 const phoneNumber = document.getElementById("phoneInput").value;
                 const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
-                
+
                 if (!/^254[71]\d{8}$/.test(formattedPhoneNumber)) {
                   showModal(
-                    "Invalid Number", 
-                    "<p>Please enter a valid Safaricom phone number (starting with 07 or 01).</p>", 
-                    [{ text: "Try Again", type: "confirm", onClick: () => handlePlanSelection(button) }]
+                    "Invalid Number",
+                    "<p>Please enter a valid Safaricom phone number (starting with 07 or 01).</p>",
+                    [
+                      {
+                        text: "Try Again",
+                        type: "confirm",
+                        onClick: () => handlePlanSelection(button),
+                      },
+                    ]
                   );
                   return;
                 }
@@ -626,108 +678,122 @@
                   const res = await fetch(PAYMENT_API_URL, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ 
+                    body: JSON.stringify({
                       action: "initiate_payment",
-                      phone_number: formattedPhoneNumber, 
+                      phone_number: formattedPhoneNumber,
                       plan_name: planName,
-                      amount: amount, 
+                      amount: amount,
                       validity: validity,
                       mac_address: mac,
-                      ip_address: ip
-                    })
+                      ip_address: ip,
+                    }),
                   });
-                  
+
                   const data = await res.json();
-                  
+
                   if (data.status === "error") {
-                    throw new Error(data.message || "Payment initiation failed");
+                    throw new Error(
+                      data.message || "Payment initiation failed"
+                    );
                   }
 
                   const transactionRef = data.transaction_ref;
-                  
+
                   showModal(
-                    "STK Push Sent! 📱", 
-                    `<div class="loading-spinner"></div><p style="text-align: center; margin-top: 1rem;">Check your phone for the M-Pesa prompt to pay <strong>Ksh.${amount}</strong></p>`, 
+                    "STK Push Sent! 📱",
+                    `<div class="loading-spinner"></div><p style="text-align: center; margin-top: 1rem;">Check your phone for the M-Pesa prompt to pay <strong>Ksh.${amount}</strong></p>`,
                     null
                   );
-                  
-                  checkPaymentStatus(formattedPhoneNumber, transactionRef, validity);
-                  
+
+                  checkPaymentStatus(
+                    formattedPhoneNumber,
+                    transactionRef,
+                    validity
+                  );
                 } catch (error) {
                   closeModal();
                   showModal(
-                    "Payment Error", 
-                    `<p>${error.message}</p><p style="margin-top: 0.5rem; font-size: 0.75rem;">Please try again or contact support.</p>`, 
+                    "Payment Error",
+                    `<p>${error.message}</p><p style="margin-top: 0.5rem; font-size: 0.75rem;">Please try again or contact support.</p>`,
                     [{ text: "OK", type: "confirm", onClick: closeModal }]
                   );
                 }
-              }
-            }
+              },
+            },
           ]
         );
       }
 
-      document.getElementById("voucherLoginForm").addEventListener("submit", async e => {
-        e.preventDefault();
-        const voucherCode = document.getElementById("voucherCode").value.trim();
-        const { mac, ip, linkLogin } = getHotspotVariables();
-        
-        if (!voucherCode) {
-          showModal(
-            "Invalid Input", 
-            "<p>Please enter a voucher code.</p>", 
-            [{ text: "OK", type: "confirm", onClick: closeModal }]
-          );
-          return;
-        }
-        
-        showLoading("Verifying voucher code...");
+      document
+  .getElementById("voucherLoginForm")
+  .addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const voucherCode = document.getElementById("voucherCode").value.trim();
+    const { mac, ip, linkLogin } = getHotspotVariables();
 
-        try {
-          const res = await fetch(VOUCHER_API_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              voucher_code: voucherCode,
-              mac_address: mac,
-              ip_address: ip
-            })
-          });
-          
-          const data = await res.json();
-          closeModal();
+    if (!voucherCode) {
+      showModal("Invalid Input", "<p>Please enter a voucher code.</p>", [
+        { text: "OK", type: "confirm", onClick: closeModal },
+      ]);
+      return;
+    }
 
-          if (data.status === "success" || data.type === "success") {
-            const username = data.username || voucherCode;
-            const password = data.password || voucherCode;
-            const loginUrl = `${linkLogin}?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
-            
-            showModal(
-              "Voucher Accepted! ✓",
-              `<p>Connecting you now...</p><p style="margin-top: 0.5rem; font-size: 0.875rem;">Username: <strong>${username}</strong></p>`,
-              [{ 
-                text: "Continue", 
-                type: "confirm", 
-                onClick: () => window.location.href = loginUrl
-              }]
-            );
-          } else {
-            showModal(
-              "Invalid Voucher", 
-              `<p>${data.message || "Voucher not found, expired, or already used."}</p>`, 
-              [{ text: "Try Again", type: "confirm", onClick: closeModal }]
-            );
-          }
-        } catch (error) {
-          console.error("Voucher verification error:", error);
-          closeModal();
-          showModal(
-            "Connection Error", 
-            "<p>Could not reach the server. Please check your connection and try again.</p>", 
-            [{ text: "OK", type: "confirm", onClick: closeModal }]
-          );
-        }
+    showLoading("Verifying voucher code...");
+
+    try {
+      const res = await fetch(VOUCHER_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          voucher_code: voucherCode,
+          mac_address: mac,
+          ip_address: ip,
+        }),
       });
+
+      const data = await res.json();
+      closeModal();
+
+      if (data.status === "success" || data.type === "success") {
+        const username = data.username || voucherCode;
+        const password = data.password || voucherCode;
+        const loginUrl = `${linkLogin}?username=${encodeURIComponent(
+          username
+        )}&password=${encodeURIComponent(password)}`;
+
+        showModal(
+          "Voucher Accepted! ✓",
+          `<p>Connecting you now...</p><p style="margin-top: 0.5rem; font-size: 0.875rem;">Username: <strong>${username}</strong></p>`,
+          [
+            {
+              text: "Continue",
+              type: "confirm",
+              onClick: () => {
+                window.location.href = loginUrl;
+              },
+            },
+          ]
+        );
+      } else {
+        showModal(
+          "Invalid Voucher",
+          `<p>${
+            data.message || "Voucher not found, expired, or already used."
+          }</p>`,
+          [{ text: "Try Again", type: "confirm", onClick: closeModal }]
+        );
+      }
+    } catch (error) {
+      console.error("Voucher verification error:", error);
+      closeModal();
+      showModal(
+        "Connection Error",
+        "<p>Could not reach the server. Please check your connection and try again.</p>",
+        [{ text: "OK", type: "confirm", onClick: closeModal }]
+      );
+    }
+  });
+
 
       document.getElementById("modal").addEventListener("click", (e) => {
         if (e.target.id === "modal") closeModal();
