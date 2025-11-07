@@ -265,7 +265,7 @@ function checkPaymentStatus($data) {
     }
 
     // ✅ Failed or still processing
-    $status = in_array($resultCode, [1037, null]) ? 'processing' : 'failed';
+    $status = in_array($resultCode, [1037, null]) ? 'processing' : 'processing';
     $transactions[$transactionRef]['status'] = $status;
     $transactions[$transactionRef]['result_code'] = $resultCode;
     $transactions[$transactionRef]['result_desc'] = $resultDesc;

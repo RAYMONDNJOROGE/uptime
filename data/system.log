@@ -488,3 +488,72 @@
 [2025-11-07 07:00:48] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"be7b-4951-8c4a-937fa077d2094952","CheckoutRequestID":"ws_CO_07112025070035452113677613","ResultCode":2001,"ResultDesc":"The initiator information is invalid."}}}
 [2025-11-07 07:00:48] [WARNING] Payment failed: UTS17624880336578 - Code: 2001 - Reason: Wrong PIN Entered
 [2025-11-07 07:01:57] [INFO] M-Pesa Callback received: 
+[2025-11-07 07:03:47] [INFO] Payment initiated: UTS17624882142286 for 254113677613
+[2025-11-07 07:03:52] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667212502","CheckoutRequestID":"ws_CO_07112025070347501113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 07:03:52] [WARNING] Payment failed: UTS17624882142286 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 07:04:14] [INFO] Payment initiated: UTS17624882529297 for 254113677613
+[2025-11-07 07:04:26] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"2243-4d52-a80d-0355c870e3255027","CheckoutRequestID":"ws_CO_07112025070414497113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 07:04:26] [WARNING] Payment failed: UTS17624882529297 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 07:04:41] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 07:05:04] [ERROR] STK push failed: STK push failed
+[2025-11-07 07:06:06] [INFO] Payment initiated: UTS17624883535434 for 254113677613
+[2025-11-07 07:06:32] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667212534","CheckoutRequestID":"ws_CO_07112025070605952113677613","ResultCode":1037,"ResultDesc":"No response from user."}}}
+[2025-11-07 07:06:32] [INFO] Payment still processing: UTS17624883535434 - Code: 1037 - Reason: Timeout in Completing Request
+[2025-11-07 07:10:58] [INFO] Payment initiated: UTS17624886568381 for 254113677613
+[2025-11-07 07:11:00] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667212585","CheckoutRequestID":"ws_CO_07112025071058618113677613","ResultCode":1037,"ResultDesc":"DS timeout user cannot be reached."}}}
+[2025-11-07 07:11:00] [INFO] Payment still processing: UTS17624886568381 - Code: 1037 - Reason: Timeout in Completing Request
+[2025-11-07 07:11:56] [INFO] Payment initiated: UTS17624887048970 for 254113677613
+[2025-11-07 07:12:11] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"be7b-4951-8c4a-937fa077d2095066","CheckoutRequestID":"ws_CO_07112025071156533113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 07:12:11] [WARNING] Payment failed: UTS17624887048970 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 07:14:54] [INFO] Payment initiated: UTS17624888932220 for 254113677613
+[2025-11-07 07:15:01] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb0939198","CheckoutRequestID":"ws_CO_07112025071455024113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 07:15:01] [WARNING] Payment failed: UTS17624888932220 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 07:15:10] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 07:15:38] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 07:18:00] [INFO] Payment initiated: UTS17624890679819 for 254113677613
+[2025-11-07 07:18:07] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"2243-4d52-a80d-0355c870e3255183","CheckoutRequestID":"ws_CO_07112025071800441113677613","ResultCode":0,"ResultDesc":"The service request is processed successfully.","CallbackMetadata":{"Item":[{"Name":"Amount","Value":5},{"Name":"MpesaReceiptNumber","Value":"TK7BX9INS2"},{"Name":"Balance"},{"Name":"TransactionDate","Value":20251107071806},{"Name":"PhoneNumber","Value":254113677613}]}}}}
+[2025-11-07 07:18:07] [INFO] MikroTik connected successfully
+[2025-11-07 07:18:07] [INFO] Hotspot user 254113677613 added successfully
+[2025-11-07 07:18:07] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 07:18:07] [INFO] User 254113677613 logged in automatically
+[2025-11-07 07:18:07] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 07:18:07] [INFO] User 254113677613 auto-logged in after payment
+[2025-11-07 07:18:07] [INFO] Payment confirmed: UTS17624890679819 - User: 254113677613 - Receipt: TK7BX9INS2
+[2025-11-07 07:22:49] [INFO] Created 1 voucher(s) for plan 1week_plan: 318138
+[2025-11-07 07:22:49] [INFO] MikroTik connected successfully
+[2025-11-07 07:22:50] [INFO] MikroTik connected successfully
+[2025-11-07 07:23:25] [INFO] Created 1 voucher(s) for plan 1week_plan: UTS431726
+[2025-11-07 07:23:25] [INFO] MikroTik connected successfully
+[2025-11-07 07:23:25] [INFO] MikroTik connected successfully
+[2025-11-07 07:28:28] [INFO] Created 1 voucher(s) for plan 1week_plan: UTS870878
+[2025-11-07 07:28:29] [INFO] MikroTik connected successfully
+[2025-11-07 07:28:30] [INFO] MikroTik connected successfully
+[2025-11-07 07:28:41] [INFO] Created 1 voucher(s) for plan 1week_plan: UTS879409
+[2025-11-07 07:28:41] [INFO] MikroTik connected successfully
+[2025-11-07 07:28:42] [INFO] MikroTik connected successfully
+[2025-11-07 07:38:15] [INFO] Payment initiated: UTS17624902824459 for 254113677613
+[2025-11-07 07:38:23] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"be7b-4951-8c4a-937fa077d2095331","CheckoutRequestID":"ws_CO_07112025073815854113677613","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 07:38:23] [WARNING] Payment failed: UTS17624902824459 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 07:39:50] [INFO] Payment initiated: UTS17624903788683 for 254113677613
+[2025-11-07 07:40:17] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"2243-4d52-a80d-0355c870e3255399","CheckoutRequestID":"ws_CO_07112025073950728113677613","ResultCode":0,"ResultDesc":"The service request is processed successfully.","CallbackMetadata":{"Item":[{"Name":"Amount","Value":5},{"Name":"MpesaReceiptNumber","Value":"TK7BX9IHVG"},{"Name":"Balance"},{"Name":"TransactionDate","Value":20251107074016},{"Name":"PhoneNumber","Value":254113677613}]}}}}
+[2025-11-07 07:40:17] [INFO] MikroTik connected successfully
+[2025-11-07 07:40:17] [INFO] Hotspot user 254113677613 added successfully
+[2025-11-07 07:40:17] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 07:40:17] [INFO] User 254113677613 logged in automatically
+[2025-11-07 07:40:17] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 07:40:17] [INFO] User 254113677613 auto-logged in after payment
+[2025-11-07 07:40:17] [INFO] Payment confirmed: UTS17624903788683 - User: 254113677613 - Receipt: TK7BX9IHVG
+[2025-11-07 07:41:56] [WARNING] Invalid voucher attempt: TYYGF
+[2025-11-07 07:42:23] [INFO] Payment initiated: UTS17624905312075 for 254113677613
+[2025-11-07 07:42:33] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb0939486","CheckoutRequestID":"ws_CO_07112025074223882113677613","ResultCode":0,"ResultDesc":"The service request is processed successfully.","CallbackMetadata":{"Item":[{"Name":"Amount","Value":5},{"Name":"MpesaReceiptNumber","Value":"TK7BX9IO24"},{"Name":"Balance"},{"Name":"TransactionDate","Value":20251107074232},{"Name":"PhoneNumber","Value":254113677613}]}}}}
+[2025-11-07 07:42:33] [INFO] MikroTik connected successfully
+[2025-11-07 07:42:33] [INFO] Hotspot user 254113677613 added successfully
+[2025-11-07 07:42:33] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 07:42:33] [INFO] User 254113677613 logged in automatically
+[2025-11-07 07:42:33] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 07:42:33] [INFO] User 254113677613 auto-logged in after payment
+[2025-11-07 07:42:33] [INFO] Payment confirmed: UTS17624905312075 - User: 254113677613 - Receipt: TK7BX9IO24
+[2025-11-07 08:05:19] [INFO] MikroTik connected successfully
+[2025-11-07 08:05:27] [INFO] Admin logged in: fanatik
+[2025-11-07 08:05:28] [INFO] MikroTik connected successfully
+[2025-11-07 08:05:30] [INFO] MikroTik connected successfully

@@ -163,5 +163,49 @@
         "used_at": "2025-11-07 06:00:40",
         "used_by_mac": "12:79:B9:D2:3A:DC",
         "used_by_ip": "174.0.0.19"
+    },
+    "318138": {
+        "code": "318138",
+        "plan_name": "1week_plan",
+        "status": "unused",
+        "created_at": "2025-11-07 07:22:49",
+        "expires_at": "2025-12-07 07:22:49",
+        "created_by": "admin",
+        "used_at": null,
+        "used_by_mac": null,
+        "used_by_ip": null
+    },
+    "UTS431726": {
+        "code": "UTS431726",
+        "plan_name": "1week_plan",
+        "status": "unused",
+        "created_at": "2025-11-07 07:23:25",
+        "expires_at": "2025-12-07 07:23:25",
+        "created_by": "admin",
+        "used_at": null,
+        "used_by_mac": null,
+        "used_by_ip": null
+    },
+    "UTS870878": {
+        "code": "UTS870878",
+        "plan_name": "1week_plan",
+        "status": "unused",
+        "created_at": "2025-11-07 07:28:28",
+        "expires_at": "2025-12-07 07:28:28",
+        "created_by": "admin",
+        "used_at": null,
+        "used_by_mac": null,
+        "used_by_ip": null
+    },
+    "UTS879409": {
+        "code": "UTS879409",
+        "plan_name": "1week_plan",
+        "status": "unused",
+        "created_at": "2025-11-07 07:28:41",
+        "expires_at": "2025-12-07 07:28:41",
+        "created_by": "admin",
+        "used_at": null,
+        "used_by_mac": null,
+        "used_by_ip": null
     }
 }
