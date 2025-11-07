@@ -557,3 +557,181 @@
 [2025-11-07 08:05:27] [INFO] Admin logged in: fanatik
 [2025-11-07 08:05:28] [INFO] MikroTik connected successfully
 [2025-11-07 08:05:30] [INFO] MikroTik connected successfully
+[2025-11-07 08:07:33] [INFO] Payment initiated: UTS17624920418493 for 254113677613
+[2025-11-07 08:07:47] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb0939741","CheckoutRequestID":"ws_CO_07112025080733947113677613","ResultCode":0,"ResultDesc":"The service request is processed successfully.","CallbackMetadata":{"Item":[{"Name":"Amount","Value":5},{"Name":"MpesaReceiptNumber","Value":"TK7BX9IGMX"},{"Name":"Balance"},{"Name":"TransactionDate","Value":20251107080746},{"Name":"PhoneNumber","Value":254113677613}]}}}}
+[2025-11-07 08:07:47] [INFO] MikroTik connected successfully
+[2025-11-07 08:07:47] [INFO] Hotspot user 254113677613 added successfully
+[2025-11-07 08:07:47] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 08:07:47] [INFO] User 254113677613 logged in automatically
+[2025-11-07 08:07:47] [INFO] Hotspot login successful for 254113677613
+[2025-11-07 08:07:47] [INFO] User 254113677613 auto-logged in after payment
+[2025-11-07 08:07:47] [INFO] Payment confirmed: UTS17624920418493 - User: 254113677613 - Receipt: TK7BX9IGMX
+[2025-11-07 08:08:44] [INFO] Created 1 voucher(s) for plan 1week_plan: UTS816186
+[2025-11-07 08:08:44] [INFO] MikroTik connected successfully
+[2025-11-07 08:08:51] [INFO] MikroTik connected successfully
+[2025-11-07 08:09:13] [INFO] MikroTik connected successfully
+[2025-11-07 08:09:13] [INFO] Hotspot user UTS816186 added successfully
+[2025-11-07 08:09:13] [INFO] Hotspot login successful for UTS816186
+[2025-11-07 08:09:13] [INFO] User UTS816186 logged in automatically
+[2025-11-07 08:09:13] [INFO] Voucher activated successfully: UTS816186 - MAC: 12:79:B9:D2:3A:DC
+[2025-11-07 17:10:22] [INFO] Payment initiated: UTS17625246104997 for 254768360773
+[2025-11-07 17:12:12] [INFO] Payment initiated: UTS17625247209687 for 254768360773
+[2025-11-07 17:12:19] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667219669","CheckoutRequestID":"ws_CO_07112025171211756768360773","ResultCode":2001,"ResultDesc":"The initiator information is invalid."}}}
+[2025-11-07 17:12:19] [WARNING] Payment failed: UTS17625247209687 - Code: 2001 - Reason: Wrong PIN Entered
+[2025-11-07 17:12:34] [INFO] Payment initiated: UTS17625247538162 for 254768360773
+[2025-11-07 17:12:52] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb09316424","CheckoutRequestID":"ws_CO_07112025171234162768360773","ResultCode":0,"ResultDesc":"The service request is processed successfully.","CallbackMetadata":{"Item":[{"Name":"Amount","Value":5},{"Name":"MpesaReceiptNumber","Value":"TK7CR9JGTJ"},{"Name":"Balance"},{"Name":"TransactionDate","Value":20251107171242},{"Name":"PhoneNumber","Value":254768360773}]}}}}
+[2025-11-07 17:12:52] [INFO] MikroTik connected successfully
+[2025-11-07 17:12:52] [INFO] Hotspot user 254768360773 added successfully
+[2025-11-07 17:12:52] [INFO] Hotspot login successful for 254768360773
+[2025-11-07 17:12:52] [INFO] User 254768360773 logged in automatically
+[2025-11-07 17:12:52] [INFO] Hotspot login successful for 254768360773
+[2025-11-07 17:12:52] [INFO] User 254768360773 auto-logged in after payment
+[2025-11-07 17:12:52] [INFO] Payment confirmed: UTS17625247538162 - User: 254768360773 - Receipt: TK7CR9JGTJ
+[2025-11-07 17:14:17] [INFO] Admin logged in: fanatik
+[2025-11-07 17:14:17] [INFO] MikroTik connected successfully
+[2025-11-07 17:14:19] [INFO] MikroTik connected successfully
+[2025-11-07 17:14:36] [INFO] Created 1 voucher(s) for plan 12hour_plan: UTS926324
+[2025-11-07 17:14:36] [INFO] MikroTik connected successfully
+[2025-11-07 17:14:38] [INFO] MikroTik connected successfully
+[2025-11-07 17:15:00] [INFO] MikroTik connected successfully
+[2025-11-07 17:15:00] [INFO] Hotspot user UTS926324 added successfully
+[2025-11-07 17:15:00] [INFO] Hotspot login successful for UTS926324
+[2025-11-07 17:15:00] [INFO] User UTS926324 logged in automatically
+[2025-11-07 17:15:00] [INFO] Voucher activated successfully: UTS926324 - MAC: C2:06:35:6C:C7:45
+[2025-11-07 17:26:30] [WARNING] Invalid voucher attempt: TUBVFD
+[2025-11-07 17:26:50] [INFO] Payment initiated: UTS17625256081109 for 254791024153
+[2025-11-07 17:26:56] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"be7b-4951-8c4a-937fa077d20912316","CheckoutRequestID":"ws_CO_07112025172650175791024153","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 17:26:56] [WARNING] Payment failed: UTS17625256081109 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 17:27:20] [ERROR] STK push failed: STK push failed
+[2025-11-07 17:27:34] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 17:27:43] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 17:27:57] [ERROR] STK push failed: STK push failed
+[2025-11-07 17:28:17] [ERROR] STK push failed: STK push failed
+[2025-11-07 17:28:44] [INFO] Payment initiated: UTS17625257182319 for 254791024153
+[2025-11-07 17:28:58] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667219817","CheckoutRequestID":"ws_CO_07112025172843847791024153","ResultCode":0,"ResultDesc":"The service request is processed successfully.","CallbackMetadata":{"Item":[{"Name":"Amount","Value":5.00},{"Name":"MpesaReceiptNumber","Value":"TK7NI9JQBJ"},{"Name":"Balance","Value":0.00},{"Name":"TransactionDate","Value":20251107172857},{"Name":"PhoneNumber","Value":254791024153}]}}}}
+[2025-11-07 17:28:58] [INFO] MikroTik connected successfully
+[2025-11-07 17:28:58] [INFO] Hotspot user 254791024153 added successfully
+[2025-11-07 17:28:58] [INFO] Hotspot login successful for 254791024153
+[2025-11-07 17:28:58] [INFO] User 254791024153 logged in automatically
+[2025-11-07 17:28:58] [INFO] Hotspot login successful for 254791024153
+[2025-11-07 17:28:58] [INFO] User 254791024153 auto-logged in after payment
+[2025-11-07 17:28:58] [INFO] Payment confirmed: UTS17625257182319 - User: 254791024153 - Receipt: TK7NI9JQBJ
+[2025-11-07 17:59:19] [INFO] Admin logged in: fanatik
+[2025-11-07 17:59:20] [INFO] MikroTik connected successfully
+[2025-11-07 17:59:22] [INFO] MikroTik connected successfully
+[2025-11-07 17:59:46] [INFO] MikroTik connected successfully
+[2025-11-07 17:59:46] [INFO] Hotspot user UTS879409 added successfully
+[2025-11-07 17:59:46] [INFO] Hotspot login successful for UTS879409
+[2025-11-07 17:59:46] [INFO] User UTS879409 logged in automatically
+[2025-11-07 17:59:46] [INFO] Voucher activated successfully: UTS879409 - MAC: C4:FE:5B:EE:B1:C3
+[2025-11-07 18:05:49] [WARNING] Attempted to reuse voucher: UTS879409
+[2025-11-07 18:06:09] [INFO] MikroTik connected successfully
+[2025-11-07 18:06:09] [INFO] Hotspot user 318138 added successfully
+[2025-11-07 18:06:09] [INFO] Hotspot login successful for 318138
+[2025-11-07 18:06:09] [INFO] User 318138 logged in automatically
+[2025-11-07 18:06:09] [INFO] Voucher activated successfully: 318138 - MAC: C4:FE:5B:EE:B1:C3
+[2025-11-07 18:13:28] [WARNING] Attempted to reuse voucher: UTS-YV157X
+[2025-11-07 18:13:40] [INFO] Payment initiated: UTS17625284169021 for 254791024153
+[2025-11-07 18:13:47] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"be7b-4951-8c4a-937fa077d20912857","CheckoutRequestID":"ws_CO_07112025181340470791024153","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 18:13:47] [WARNING] Payment failed: UTS17625284169021 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 18:16:29] [INFO] Payment initiated: UTS17625285868782 for 254791024153
+[2025-11-07 18:16:38] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667220383","CheckoutRequestID":"ws_CO_07112025181628611791024153","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 18:16:38] [WARNING] Payment failed: UTS17625285868782 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 18:16:50] [INFO] Payment initiated: UTS17625286095684 for 254791024153
+[2025-11-07 18:16:56] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb09317145","CheckoutRequestID":"ws_CO_07112025181650429791024153","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 18:16:56] [WARNING] Payment failed: UTS17625286095684 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 18:18:29] [INFO] Payment initiated: UTS17625287065814 for 254791024153
+[2025-11-07 18:18:34] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb09317167","CheckoutRequestID":"ws_CO_07112025181828650791024153","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 18:18:34] [WARNING] Payment failed: UTS17625287065814 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 18:19:05] [WARNING] Attempted to reuse voucher: UTS879409
+[2025-11-07 18:19:14] [INFO] MikroTik connected successfully
+[2025-11-07 18:19:16] [INFO] MikroTik connected successfully
+[2025-11-07 18:19:31] [INFO] MikroTik connected successfully
+[2025-11-07 18:19:31] [INFO] Hotspot user UTS870878 added successfully
+[2025-11-07 18:19:31] [INFO] Hotspot login successful for UTS870878
+[2025-11-07 18:19:31] [INFO] User UTS870878 logged in automatically
+[2025-11-07 18:19:31] [INFO] Voucher activated successfully: UTS870878 - MAC: $(mac)
+[2025-11-07 18:23:31] [INFO] Payment initiated: UTS17625290096774 for 254791024153
+[2025-11-07 18:23:37] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"be7b-4951-8c4a-937fa077d20912974","CheckoutRequestID":"ws_CO_07112025182331457791024153","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 18:23:37] [WARNING] Payment failed: UTS17625290096774 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 18:26:15] [INFO] Payment initiated: UTS17625291709192 for 254791024153
+[2025-11-07 18:26:20] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"be7b-4951-8c4a-937fa077d20913015","CheckoutRequestID":"ws_CO_07112025182614802791024153","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 18:26:20] [WARNING] Payment failed: UTS17625291709192 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 18:26:29] [INFO] Payment initiated: UTS17625291881669 for 254791024153
+[2025-11-07 18:26:48] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"be7b-4951-8c4a-937fa077d20913017","CheckoutRequestID":"ws_CO_07112025182629340791024153","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 18:26:48] [WARNING] Payment failed: UTS17625291881669 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 18:26:58] [ERROR] Failed to get M-Pesa access token
+[2025-11-07 18:31:12] [INFO] MikroTik connected successfully
+[2025-11-07 18:31:13] [INFO] MikroTik connected successfully
+[2025-11-07 18:31:15] [INFO] Created 1 voucher(s) for plan 30min_plan: 264476
+[2025-11-07 18:31:16] [INFO] MikroTik connected successfully
+[2025-11-07 18:31:17] [INFO] MikroTik connected successfully
+[2025-11-07 18:32:12] [INFO] Payment initiated: UTS17625295271348 for 254791024153
+[2025-11-07 18:32:27] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667220553","CheckoutRequestID":"ws_CO_07112025183211579791024153","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 18:32:27] [WARNING] Payment failed: UTS17625295271348 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 18:46:21] [INFO] Payment initiated: UPTIME-HOTSPOT-20251107184618-7722 for 254791024153
+[2025-11-07 18:46:48] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"be7b-4951-8c4a-937fa077d20913220","CheckoutRequestID":"ws_CO_07112025184620924791024153","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 18:46:48] [WARNING] Payment failed: UPTIME-HOTSPOT-20251107184618-7722 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 18:49:47] [INFO] Payment initiated: UPTIME-619 for 254791024153
+[2025-11-07 18:50:00] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"1a3e-41dc-a45f-b1ef9fa9667220767","CheckoutRequestID":"ws_CO_07112025184946722791024153","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 18:50:00] [WARNING] Payment failed: UPTIME-619 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 18:51:29] [INFO] Payment initiated: UPTIME-254791024153-7867 for 254791024153
+[2025-11-07 18:51:42] [INFO] M-Pesa Callback received: {"Body":{"stkCallback":{"MerchantRequestID":"6343-4d14-be0a-e5e024ebb09317521","CheckoutRequestID":"ws_CO_07112025185128548791024153","ResultCode":1032,"ResultDesc":"Request Cancelled by user."}}}
+[2025-11-07 18:51:42] [WARNING] Payment failed: UPTIME-254791024153-7867 - Code: 1032 - Reason: Request Cancelled by User
+[2025-11-07 19:02:44] [INFO] MikroTik connected successfully
+[2025-11-07 19:02:49] [INFO] Admin logged in: fanatik
+[2025-11-07 19:02:49] [INFO] MikroTik connected successfully
+[2025-11-07 19:02:51] [INFO] MikroTik connected successfully
+[2025-11-07 19:03:32] [INFO] MikroTik connected successfully
+[2025-11-07 19:03:34] [INFO] MikroTik connected successfully
+[2025-11-07 19:03:52] [INFO] MikroTik connected successfully
+[2025-11-07 19:03:53] [INFO] MikroTik connected successfully
+[2025-11-07 19:04:00] [INFO] MikroTik connected successfully
+[2025-11-07 19:04:01] [INFO] Created backup: backup-2025-11-07-190400
+[2025-11-07 19:04:01] [INFO] MikroTik connected successfully
+[2025-11-07 19:04:03] [INFO] MikroTik connected successfully
+[2025-11-07 19:05:04] [INFO] MikroTik connected successfully
+[2025-11-07 19:05:04] [INFO] Created backup: backup-2025-11-07-190504
+[2025-11-07 19:05:04] [INFO] MikroTik connected successfully
+[2025-11-07 19:05:06] [INFO] MikroTik connected successfully
+[2025-11-07 19:07:18] [INFO] MikroTik connected successfully
+[2025-11-07 19:07:19] [INFO] MikroTik connected successfully
+[2025-11-07 19:07:52] [INFO] MikroTik connected successfully
+[2025-11-07 19:07:54] [INFO] MikroTik connected successfully
+[2025-11-07 19:12:07] [INFO] MikroTik connected successfully
+[2025-11-07 19:12:12] [INFO] Deleted voucher: UTS431726
+[2025-11-07 19:12:12] [INFO] MikroTik connected successfully
+[2025-11-07 19:12:16] [INFO] Deleted voucher: 264476
+[2025-11-07 19:12:16] [INFO] MikroTik connected successfully
+[2025-11-07 19:12:20] [INFO] MikroTik connected successfully
+[2025-11-07 19:12:27] [INFO] Deleted voucher: UTS-W8EQ3Q
+[2025-11-07 19:12:27] [INFO] MikroTik connected successfully
+[2025-11-07 19:12:31] [INFO] MikroTik connected successfully
+[2025-11-07 19:12:38] [INFO] Deleted voucher: UTS-I6R90V
+[2025-11-07 19:12:38] [INFO] MikroTik connected successfully
+[2025-11-07 19:12:40] [INFO] MikroTik connected successfully
+[2025-11-07 19:12:45] [INFO] Deleted voucher: UTS-F9PLI8
+[2025-11-07 19:12:45] [INFO] MikroTik connected successfully
+[2025-11-07 19:12:47] [INFO] MikroTik connected successfully
+[2025-11-07 19:13:03] [INFO] MikroTik connected successfully
+[2025-11-07 19:13:05] [INFO] MikroTik connected successfully
+[2025-11-07 19:13:14] [INFO] Admin logged in: fanatik
+[2025-11-07 19:13:15] [INFO] MikroTik connected successfully
+[2025-11-07 19:13:17] [INFO] MikroTik connected successfully
+[2025-11-07 19:16:23] [INFO] MikroTik connected successfully
+[2025-11-07 19:16:25] [INFO] MikroTik connected successfully
+[2025-11-07 19:16:40] [INFO] Admin password changed successfully
+[2025-11-07 19:16:48] [WARNING] Failed login attempt for user: fanatik
+[2025-11-07 19:16:55] [INFO] Admin logged in: fanatik
+[2025-11-07 19:16:55] [INFO] MikroTik connected successfully
+[2025-11-07 19:16:57] [INFO] MikroTik connected successfully
+[2025-11-07 19:17:29] [INFO] Admin password changed successfully
+[2025-11-07 19:17:37] [INFO] Admin logged in: fanatik
+[2025-11-07 19:17:38] [INFO] MikroTik connected successfully
+[2025-11-07 19:17:40] [INFO] MikroTik connected successfully
+[2025-11-07 19:17:46] [INFO] Created 1 voucher(s) for plan 30min_plan: 598108
+[2025-11-07 19:17:46] [INFO] MikroTik connected successfully
+[2025-11-07 19:17:48] [INFO] MikroTik connected successfully
+[2025-11-07 19:17:53] [INFO] Created 1 voucher(s) for plan 30min_plan: 325495
+[2025-11-07 19:17:54] [INFO] MikroTik connected successfully
+[2025-11-07 19:17:55] [INFO] MikroTik connected successfully

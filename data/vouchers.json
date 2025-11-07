@@ -76,17 +76,6 @@
         "used_by_mac": "12:79:B9:D2:3A:DC",
         "used_by_ip": "174.0.0.19"
     },
-    "UTS-I6R90V": {
-        "code": "UTS-I6R90V",
-        "plan_name": "30min_plan",
-        "status": "unused",
-        "created_at": "2025-11-07 03:39:56",
-        "expires_at": "2025-12-07 03:39:56",
-        "created_by": "admin",
-        "used_at": null,
-        "used_by_mac": null,
-        "used_by_ip": null
-    },
     "UTS-S7QPVS": {
         "code": "UTS-S7QPVS",
         "plan_name": "30min_plan",
@@ -131,28 +120,6 @@
         "used_by_mac": "12:79:B9:D2:3A:DC",
         "used_by_ip": "174.0.0.19"
     },
-    "UTS-W8EQ3Q": {
-        "code": "UTS-W8EQ3Q",
-        "plan_name": "1week_plan",
-        "status": "unused",
-        "created_at": "2025-11-07 04:09:16",
-        "expires_at": "2025-12-07 04:09:16",
-        "created_by": "admin",
-        "used_at": null,
-        "used_by_mac": null,
-        "used_by_ip": null
-    },
-    "UTS-F9PLI8": {
-        "code": "UTS-F9PLI8",
-        "plan_name": "1week_plan",
-        "status": "unused",
-        "created_at": "2025-11-07 04:37:55",
-        "expires_at": "2025-12-07 04:37:55",
-        "created_by": "admin",
-        "used_at": null,
-        "used_by_mac": null,
-        "used_by_ip": null
-    },
     "UTS-4Z7TO4": {
         "code": "UTS-4Z7TO4",
         "plan_name": "1week_plan",
@@ -167,42 +134,75 @@
     "318138": {
         "code": "318138",
         "plan_name": "1week_plan",
-        "status": "unused",
+        "status": "used",
         "created_at": "2025-11-07 07:22:49",
         "expires_at": "2025-12-07 07:22:49",
         "created_by": "admin",
-        "used_at": null,
-        "used_by_mac": null,
-        "used_by_ip": null
-    },
-    "UTS431726": {
-        "code": "UTS431726",
-        "plan_name": "1week_plan",
-        "status": "unused",
-        "created_at": "2025-11-07 07:23:25",
-        "expires_at": "2025-12-07 07:23:25",
-        "created_by": "admin",
-        "used_at": null,
-        "used_by_mac": null,
-        "used_by_ip": null
+        "used_at": "2025-11-07 18:06:09",
+        "used_by_mac": "C4:FE:5B:EE:B1:C3",
+        "used_by_ip": "174.0.0.14"
     },
     "UTS870878": {
         "code": "UTS870878",
         "plan_name": "1week_plan",
-        "status": "unused",
+        "status": "used",
         "created_at": "2025-11-07 07:28:28",
         "expires_at": "2025-12-07 07:28:28",
+        "created_by": "admin",
+        "used_at": "2025-11-07 18:19:31",
+        "used_by_mac": "$(mac)",
+        "used_by_ip": "$(ip)"
+    },
+    "UTS879409": {
+        "code": "UTS879409",
+        "plan_name": "1week_plan",
+        "status": "used",
+        "created_at": "2025-11-07 07:28:41",
+        "expires_at": "2025-12-07 07:28:41",
+        "created_by": "admin",
+        "used_at": "2025-11-07 17:59:46",
+        "used_by_mac": "C4:FE:5B:EE:B1:C3",
+        "used_by_ip": "174.0.0.14"
+    },
+    "UTS816186": {
+        "code": "UTS816186",
+        "plan_name": "1week_plan",
+        "status": "used",
+        "created_at": "2025-11-07 08:08:44",
+        "expires_at": "2025-12-07 08:08:44",
+        "created_by": "admin",
+        "used_at": "2025-11-07 08:09:13",
+        "used_by_mac": "12:79:B9:D2:3A:DC",
+        "used_by_ip": "174.0.0.19"
+    },
+    "UTS926324": {
+        "code": "UTS926324",
+        "plan_name": "12hour_plan",
+        "status": "used",
+        "created_at": "2025-11-07 17:14:36",
+        "expires_at": "2025-12-07 17:14:36",
+        "created_by": "admin",
+        "used_at": "2025-11-07 17:15:00",
+        "used_by_mac": "C2:06:35:6C:C7:45",
+        "used_by_ip": "174.0.0.15"
+    },
+    "598108": {
+        "code": "598108",
+        "plan_name": "30min_plan",
+        "status": "unused",
+        "created_at": "2025-11-07 19:17:46",
+        "expires_at": "2025-12-07 19:17:46",
         "created_by": "admin",
         "used_at": null,
         "used_by_mac": null,
         "used_by_ip": null
     },
-    "UTS879409": {
-        "code": "UTS879409",
-        "plan_name": "1week_plan",
+    "325495": {
+        "code": "325495",
+        "plan_name": "30min_plan",
         "status": "unused",
-        "created_at": "2025-11-07 07:28:41",
-        "expires_at": "2025-12-07 07:28:41",
+        "created_at": "2025-11-07 19:17:53",
+        "expires_at": "2025-12-07 19:17:53",
         "created_by": "admin",
         "used_at": null,
         "used_by_mac": null,

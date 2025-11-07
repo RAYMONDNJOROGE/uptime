@@ -9,6 +9,9 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     exit;
 }
 
+// Include password change handler
+require_once 'password_change_handler.php';
+
 // Handle actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
@@ -21,6 +24,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         handleDisconnectUser();
     } elseif ($action === 'delete_user') {
         handleDeleteUser();
+    } elseif ($action === 'change_password') {
+        handlePasswordChange();
+    } elseif ($action === 'block_ip') {
+        handleBlockIp();
+    } elseif ($action === 'block_mac') {
+        handleBlockMac();
+    } elseif ($action === 'update_user_profile') {
+        handleUpdateUserProfile();
+    } elseif ($action === 'create_backup') {
+        handleCreateBackup();
     } elseif ($action === 'logout') {
         session_destroy();
         header('Location: login.php');
@@ -46,7 +59,6 @@ function handleCreateVoucher() {
     for ($i = 0; $i < $quantity; $i++) {
         $code = generateVoucherCode();
         
-        // Ensure unique code
         while (isset($vouchers[$code])) {
             $code = generateVoucherCode();
         }
@@ -78,7 +90,6 @@ function handleCreateVoucher() {
 
 function handleDeleteVoucher() {
     $code = $_POST['voucher_code'] ?? '';
-    
     $vouchers = getVouchers();
     
     if (isset($vouchers[$code])) {
@@ -93,7 +104,6 @@ function handleDeleteVoucher() {
 
 function handleDisconnectUser() {
     $userId = $_POST['user_id'] ?? '';
-    
     $mikrotik = new MikrotikAPI(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS, MIKROTIK_PORT);
     
     if ($mikrotik->connect()) {
@@ -113,7 +123,6 @@ function handleDisconnectUser() {
 
 function handleDeleteUser() {
     $username = $_POST['username'] ?? '';
-    
     $mikrotik = new MikrotikAPI(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS, MIKROTIK_PORT);
     
     if ($mikrotik->connect()) {
@@ -131,18 +140,123 @@ function handleDeleteUser() {
     }
 }
 
+function handleBlockIp() {
+    $ip = $_POST['ip_address'] ?? '';
+    $comment = $_POST['comment'] ?? 'Blocked from admin dashboard';
+    
+    if (empty($ip)) {
+        $_SESSION['message'] = ['type' => 'error', 'text' => 'IP address is required'];
+        return;
+    }
+    
+    $mikrotik = new MikrotikAPI(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS, MIKROTIK_PORT);
+    
+    if ($mikrotik->connect()) {
+        $success = $mikrotik->blockIpAddress($ip, $comment);
+        $mikrotik->disconnect();
+        
+        if ($success) {
+            logMessage("Blocked IP: $ip", 'INFO');
+            $_SESSION['message'] = ['type' => 'success', 'text' => "IP $ip blocked successfully"];
+        } else {
+            $_SESSION['message'] = ['type' => 'error', 'text' => 'Failed to block IP'];
+        }
+    } else {
+        $_SESSION['message'] = ['type' => 'error', 'text' => 'Failed to connect to router'];
+    }
+}
+
+function handleBlockMac() {
+    $mac = $_POST['mac_address'] ?? '';
+    $comment = $_POST['comment'] ?? 'Blocked from admin dashboard';
+    
+    if (empty($mac)) {
+        $_SESSION['message'] = ['type' => 'error', 'text' => 'MAC address is required'];
+        return;
+    }
+    
+    $mikrotik = new MikrotikAPI(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS, MIKROTIK_PORT);
+    
+    if ($mikrotik->connect()) {
+        $success = $mikrotik->blockMacAddress($mac, $comment);
+        $mikrotik->disconnect();
+        
+        if ($success) {
+            logMessage("Blocked MAC: $mac", 'INFO');
+            $_SESSION['message'] = ['type' => 'success', 'text' => "MAC $mac blocked successfully"];
+        } else {
+            $_SESSION['message'] = ['type' => 'error', 'text' => 'Failed to block MAC'];
+        }
+    } else {
+        $_SESSION['message'] = ['type' => 'error', 'text' => 'Failed to connect to router'];
+    }
+}
+
+function handleUpdateUserProfile() {
+    $username = $_POST['username'] ?? '';
+    $newProfile = $_POST['new_profile'] ?? '';
+    
+    if (empty($username) || empty($newProfile)) {
+        $_SESSION['message'] = ['type' => 'error', 'text' => 'Username and profile are required'];
+        return;
+    }
+    
+    $mikrotik = new MikrotikAPI(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS, MIKROTIK_PORT);
+    
+    if ($mikrotik->connect()) {
+        $success = $mikrotik->updateUserProfile($username, $newProfile);
+        $mikrotik->disconnect();
+        
+        if ($success) {
+            logMessage("Updated profile for user $username to $newProfile", 'INFO');
+            $_SESSION['message'] = ['type' => 'success', 'text' => 'User profile updated successfully'];
+        } else {
+            $_SESSION['message'] = ['type' => 'error', 'text' => 'Failed to update user profile'];
+        }
+    } else {
+        $_SESSION['message'] = ['type' => 'error', 'text' => 'Failed to connect to router'];
+    }
+}
+
+function handleCreateBackup() {
+    $mikrotik = new MikrotikAPI(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS, MIKROTIK_PORT);
+    
+    if ($mikrotik->connect()) {
+        $backupName = $mikrotik->createBackup();
+        $mikrotik->disconnect();
+        
+        if ($backupName) {
+            logMessage("Created backup: $backupName", 'INFO');
+            $_SESSION['message'] = ['type' => 'success', 'text' => "Backup created: $backupName"];
+        } else {
+            $_SESSION['message'] = ['type' => 'error', 'text' => 'Failed to create backup'];
+        }
+    } else {
+        $_SESSION['message'] = ['type' => 'error', 'text' => 'Failed to connect to router'];
+    }
+}
+
 // Get system data
 $mikrotik = new MikrotikAPI(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS, MIKROTIK_PORT);
 $systemData = [];
 $activeUsers = [];
 $allUsers = [];
 $profiles = [];
+$bandwidthStats = [];
+$dhcpLeases = [];
+$queues = [];
+$blockedAddresses = [];
+$dataUsage = [];
 
 if ($mikrotik->connect()) {
     $systemData = $mikrotik->getSystemResource();
-    $activeUsers = $mikrotik->getHotspotActiveUsers();
+    $activeUsers = $mikrotik->getActiveUsersBandwidth();
     $allUsers = $mikrotik->getHotspotUsers();
     $profiles = $mikrotik->getHotspotProfiles();
+    $dhcpLeases = $mikrotik->getDhcpLeases();
+    $queues = $mikrotik->getSimpleQueues();
+    $blockedAddresses = $mikrotik->getFirewallAddressLists();
+    $dataUsage = $mikrotik->getTotalDataUsage();
     $mikrotik->disconnect();
 }
 
@@ -163,11 +277,7 @@ $totalRevenue = array_sum(array_map(fn($t) => $t['amount'], $confirmedTransactio
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Uptime Hotspot</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -186,8 +296,12 @@ $totalRevenue = array_sum(array_map(fn($t) => $t['amount'], $confirmedTransactio
             box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
         
-        .header h1 {
-            font-size: 1.5rem;
+        .header h1 { font-size: 1.5rem; }
+        
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
         }
         
         .header button {
@@ -200,8 +314,14 @@ $totalRevenue = array_sum(array_map(fn($t) => $t['amount'], $confirmedTransactio
             font-weight: 600;
         }
         
-        .header button:hover {
-            background: #dc2626;
+        .header button:hover { background: #dc2626; }
+        
+        .btn-settings {
+            background: #3b82f6 !important;
+        }
+        
+        .btn-settings:hover {
+            background: #2563eb !important;
         }
         
         .container {
@@ -236,6 +356,12 @@ $totalRevenue = array_sum(array_map(fn($t) => $t['amount'], $confirmedTransactio
             color: #1f2937;
         }
         
+        .stat-card .subvalue {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+        
         .section {
             background: white;
             border-radius: 1rem;
@@ -257,6 +383,7 @@ $totalRevenue = array_sum(array_map(fn($t) => $t['amount'], $confirmedTransactio
             gap: 0.5rem;
             margin-bottom: 1rem;
             border-bottom: 2px solid #e5e7eb;
+            flex-wrap: wrap;
         }
         
         .tab {
@@ -312,25 +439,10 @@ $totalRevenue = array_sum(array_map(fn($t) => $t['amount'], $confirmedTransactio
             font-weight: 600;
         }
         
-        .badge.success {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        
-        .badge.warning {
-            background: #fef3c7;
-            color: #92400e;
-        }
-        
-        .badge.error {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-        
-        .badge.info {
-            background: #dbeafe;
-            color: #1e40af;
-        }
+        .badge.success { background: #d1fae5; color: #065f46; }
+        .badge.warning { background: #fef3c7; color: #92400e; }
+        .badge.error { background: #fee2e2; color: #991b1b; }
+        .badge.info { background: #dbeafe; color: #1e40af; }
         
         .btn {
             padding: 0.5rem 1rem;
@@ -437,15 +549,75 @@ $totalRevenue = array_sum(array_map(fn($t) => $t['amount'], $confirmedTransactio
             display: flex;
             gap: 0.5rem;
         }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-header h3 {
+            font-size: 1.5rem;
+            color: #1f2937;
+        }
+        
+        .close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: #6b7280;
+        }
+        
+        .close:hover {
+            color: #1f2937;
+        }
+        
+        .progress-bar {
+            background: #e5e7eb;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        
+        .progress-fill {
+            background: #667eea;
+            height: 100%;
+            transition: width 0.3s;
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>🛡️ Uptime Hotspot Admin</h1>
-        <form method="POST" style="display: inline;">
-            <input type="hidden" name="action" value="logout">
-            <button type="submit">Logout</button>
-        </form>
+        <div class="header-actions">
+            <button class="btn-settings" onclick="openModal('settingsModal')">⚙️ Settings</button>
+            <form method="POST" style="display: inline;">
+                <input type="hidden" name="action" value="logout">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
     </div>
     
     <div class="container">
@@ -481,6 +653,16 @@ $totalRevenue = array_sum(array_map(fn($t) => $t['amount'], $confirmedTransactio
                 <h3>Total Revenue</h3>
                 <div class="value">Ksh <?= number_format($totalRevenue) ?></div>
             </div>
+            <?php if (!empty($dataUsage)): ?>
+            <div class="stat-card">
+                <h3>Data Downloaded</h3>
+                <div class="value"><?= $dataUsage['total_received_formatted'] ?? 'N/A' ?></div>
+            </div>
+            <div class="stat-card">
+                <h3>Data Uploaded</h3>
+                <div class="value"><?= $dataUsage['total_transmitted_formatted'] ?? 'N/A' ?></div>
+            </div>
+            <?php endif; ?>
         </div>
         
         <?php if (!empty($systemData)): ?>
@@ -497,7 +679,13 @@ $totalRevenue = array_sum(array_map(fn($t) => $t['amount'], $confirmedTransactio
                 </tr>
                 <tr>
                     <td><strong>CPU Load:</strong></td>
-                    <td><?= htmlspecialchars($systemData[0]['cpu-load'] ?? 'N/A') ?>%</td>
+                    <td>
+                        <?php $cpuLoad = intval($systemData[0]['cpu-load'] ?? 0); ?>
+                        <?= $cpuLoad ?>%
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: <?= $cpuLoad ?>%"></div>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <td><strong>Free Memory:</strong></td>
@@ -539,6 +727,9 @@ $totalRevenue = array_sum(array_map(fn($t) => $t['amount'], $confirmedTransactio
                 <button class="tab" onclick="switchTab('all-users')">All Users</button>
                 <button class="tab" onclick="switchTab('vouchers')">Vouchers</button>
                 <button class="tab" onclick="switchTab('transactions')">Transactions</button>
+                <button class="tab" onclick="switchTab('dhcp-leases')">DHCP Leases</button>
+                <button class="tab" onclick="switchTab('bandwidth-control')">Bandwidth Control</button>
+                <button class="tab" onclick="switchTab('access-control')">Access Control</button>
             </div>
             
             <div id="active-users" class="tab-content active">
@@ -553,6 +744,9 @@ $totalRevenue = array_sum(array_map(fn($t) => $t['amount'], $confirmedTransactio
                             <th>IP Address</th>
                             <th>MAC Address</th>
                             <th>Uptime</th>
+                            <th>Downloaded</th>
+                            <th>Uploaded</th>
+                            <th>Total</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -562,47 +756,15 @@ $totalRevenue = array_sum(array_map(fn($t) => $t['amount'], $confirmedTransactio
                             <td><?= htmlspecialchars($user['user'] ?? 'N/A') ?></td>
                             <td><?= htmlspecialchars($user['address'] ?? 'N/A') ?></td>
                             <td><?= htmlspecialchars($user['mac-address'] ?? 'N/A') ?></td>
-                            <td><?= htmlspecialchars($user['uptime'] ?? 'N/A') ?></td>
                             <td>
-                                <form method="POST" style="display: inline;">
-                                    <input type="hidden" name="action" value="disconnect_user">
-                                    <input type="hidden" name="user_id" value="<?= htmlspecialchars($user['.id']) ?>">
-                                    <button type="submit" class="btn btn-danger btn-small" onclick="return confirm('Disconnect this user?')">Disconnect</button>
-                                </form>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-                <?php endif; ?>
-            </div>
-            
-            <div id="all-users" class="tab-content">
-                <h2>All Hotspot Users</h2>
-                <?php if (empty($allUsers)): ?>
-                    <div class="empty-state">No users found</div>
-                <?php else: ?>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Profile</th>
-                            <th>MAC Address</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($allUsers as $user): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($user['name'] ?? 'N/A') ?></td>
-                            <td><?= htmlspecialchars($user['profile'] ?? 'N/A') ?></td>
-                            <td><?= htmlspecialchars($user['mac-address'] ?? 'N/A') ?></td>
-                            <td>
-                                <form method="POST" style="display: inline;">
-                                    <input type="hidden" name="action" value="delete_user">
-                                    <input type="hidden" name="username" value="<?= htmlspecialchars($user['name']) ?>">
-                                    <button type="submit" class="btn btn-danger btn-small" onclick="return confirm('Delete this user?')">Delete</button>
-                                </form>
+                                <div class="actions">
+                                    <button class="btn btn-primary btn-small" onclick="openChangeProfileModal('<?= htmlspecialchars($user['name']) ?>', '<?= htmlspecialchars($user['profile']) ?>')">Change Profile</button>
+                                    <form method="POST" style="display: inline;">
+                                        <input type="hidden" name="action" value="delete_user">
+                                        <input type="hidden" name="username" value="<?= htmlspecialchars($user['name']) ?>">
+                                        <button type="submit" class="btn btn-danger btn-small" onclick="return confirm('Delete this user?')">Delete</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -694,6 +856,294 @@ $totalRevenue = array_sum(array_map(fn($t) => $t['amount'], $confirmedTransactio
                 </table>
                 <?php endif; ?>
             </div>
+            
+            <div id="dhcp-leases" class="tab-content">
+                <h2>DHCP Leases</h2>
+                <?php if (empty($dhcpLeases)): ?>
+                    <div class="empty-state">No DHCP leases</div>
+                <?php else: ?>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>IP Address</th>
+                            <th>MAC Address</th>
+                            <th>Host Name</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($dhcpLeases as $lease): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($lease['address'] ?? 'N/A') ?></td>
+                            <td><?= htmlspecialchars($lease['mac-address'] ?? 'N/A') ?></td>
+                            <td><?= htmlspecialchars($lease['host-name'] ?? '-') ?></td>
+                            <td>
+                                <span class="badge <?= ($lease['status'] ?? '') === 'bound' ? 'success' : 'warning' ?>">
+                                    <?= htmlspecialchars($lease['status'] ?? 'N/A') ?>
+                                </span>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger btn-small" onclick="blockDevice('<?= htmlspecialchars($lease['address'] ?? '') ?>', '<?= htmlspecialchars($lease['mac-address'] ?? '') ?>')">Block</button>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <?php endif; ?>
+            </div>
+            
+            <div id="bandwidth-control" class="tab-content">
+                <h2>Bandwidth Control & Queues</h2>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <button class="btn btn-primary" onclick="openModal('addQueueModal')">+ Add Bandwidth Limit</button>
+                </div>
+                
+                <?php if (empty($queues)): ?>
+                    <div class="empty-state">No bandwidth limits configured</div>
+                <?php else: ?>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Target</th>
+                            <th>Max Upload/Download</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($queues as $queue): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($queue['name'] ?? 'N/A') ?></td>
+                            <td><?= htmlspecialchars($queue['target'] ?? 'N/A') ?></td>
+                            <td><?= htmlspecialchars($queue['max-limit'] ?? 'N/A') ?></td>
+                            <td>
+                                <form method="POST" style="display: inline;">
+                                    <input type="hidden" name="action" value="remove_queue">
+                                    <input type="hidden" name="queue_id" value="<?= htmlspecialchars($queue['.id']) ?>">
+                                    <button type="submit" class="btn btn-danger btn-small" onclick="return confirm('Remove this bandwidth limit?')">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <?php endif; ?>
+            </div>
+            
+            <div id="access-control" class="tab-content">
+                <h2>Access Control & Blocked Addresses</h2>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <button class="btn btn-danger" onclick="openModal('blockIpModal')">Block IP Address</button>
+                    <button class="btn btn-danger" onclick="openModal('blockMacModal')">Block MAC Address</button>
+                </div>
+                
+                <?php if (empty($blockedAddresses)): ?>
+                    <div class="empty-state">No blocked addresses</div>
+                <?php else: ?>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Address</th>
+                            <th>List</th>
+                            <th>Comment</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($blockedAddresses as $addr): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($addr['address'] ?? 'N/A') ?></td>
+                            <td>
+                                <span class="badge error">
+                                    <?= htmlspecialchars($addr['list'] ?? 'N/A') ?>
+                                </span>
+                            </td>
+                            <td><?= htmlspecialchars($addr['comment'] ?? '-') ?></td>
+                            <td>
+                                <form method="POST" style="display: inline;">
+                                    <input type="hidden" name="action" value="unblock_address">
+                                    <input type="hidden" name="address_id" value="<?= htmlspecialchars($addr['.id']) ?>">
+                                    <button type="submit" class="btn btn-primary btn-small" onclick="return confirm('Unblock this address?')">Unblock</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⚙️ Settings</h3>
+                <span class="close" onclick="closeModal('settingsModal')">&times;</span>
+            </div>
+            
+            <div class="tabs" style="border-bottom: 1px solid #e5e7eb;">
+                <button class="tab active" onclick="switchSettingsTab('password')">Change Password</button>
+                <button class="tab" onclick="switchSettingsTab('backup')">Backup</button>
+            </div>
+            
+            <div id="settings-password" class="tab-content active" style="display: block; margin-top: 1rem;">
+                <form method="POST">
+                    <input type="hidden" name="action" value="change_password">
+                    
+                    <div class="form-group">
+                        <label>Current Password</label>
+                        <input type="password" name="current_password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" name="new_password" required minlength="6">
+                        <small style="color: #6b7280;">Minimum 6 characters</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Confirm New Password</label>
+                        <input type="password" name="confirm_password" required minlength="6">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                </form>
+            </div>
+            
+            <div id="settings-backup" class="tab-content" style="margin-top: 1rem;">
+                <p style="margin-bottom: 1rem; color: #6b7280;">Create a backup of your router configuration.</p>
+                
+                <form method="POST">
+                    <input type="hidden" name="action" value="create_backup">
+                    <button type="submit" class="btn btn-primary">Create Backup Now</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Block IP Modal -->
+    <div id="blockIpModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Block IP Address</h3>
+                <span class="close" onclick="closeModal('blockIpModal')">&times;</span>
+            </div>
+            
+            <form method="POST">
+                <input type="hidden" name="action" value="block_ip">
+                
+                <div class="form-group">
+                    <label>IP Address</label>
+                    <input type="text" name="ip_address" placeholder="192.168.1.100" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Comment (Optional)</label>
+                    <input type="text" name="comment" placeholder="Reason for blocking">
+                </div>
+                
+                <button type="submit" class="btn btn-danger">Block IP</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Block MAC Modal -->
+    <div id="blockMacModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Block MAC Address</h3>
+                <span class="close" onclick="closeModal('blockMacModal')">&times;</span>
+            </div>
+            
+            <form method="POST">
+                <input type="hidden" name="action" value="block_mac">
+                
+                <div class="form-group">
+                    <label>MAC Address</label>
+                    <input type="text" name="mac_address" placeholder="00:11:22:33:44:55" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Comment (Optional)</label>
+                    <input type="text" name="comment" placeholder="Reason for blocking">
+                </div>
+                
+                <button type="submit" class="btn btn-danger">Block MAC</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Change Profile Modal -->
+    <div id="changeProfileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Change User Profile</h3>
+                <span class="close" onclick="closeModal('changeProfileModal')">&times;</span>
+            </div>
+            
+            <form method="POST">
+                <input type="hidden" name="action" value="update_user_profile">
+                <input type="hidden" name="username" id="profile_username">
+                
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="profile_username_display" disabled>
+                </div>
+                
+                <div class="form-group">
+                    <label>New Profile</label>
+                    <select name="new_profile" required>
+                        <?php foreach ($profiles as $profile): ?>
+                            <option value="<?= htmlspecialchars($profile['name']) ?>">
+                                <?= htmlspecialchars($profile['name']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Add Queue Modal -->
+    <div id="addQueueModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Bandwidth Limit</h3>
+                <span class="close" onclick="closeModal('addQueueModal')">&times;</span>
+            </div>
+            
+            <form method="POST">
+                <input type="hidden" name="action" value="add_bandwidth_limit">
+                
+                <div class="form-group">
+                    <label>Target IP Address</label>
+                    <input type="text" name="target" placeholder="192.168.1.100" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Max Upload (e.g., 1M, 512k)</label>
+                    <input type="text" name="max_upload" placeholder="1M" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Max Download (e.g., 2M, 1M)</label>
+                    <input type="text" name="max_download" placeholder="2M" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Name (Optional)</label>
+                    <input type="text" name="queue_name" placeholder="limit-user1">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Add Limit</button>
+            </form>
         </div>
     </div>
     
@@ -704,6 +1154,52 @@ $totalRevenue = array_sum(array_map(fn($t) => $t['amount'], $confirmedTransactio
             
             event.target.classList.add('active');
             document.getElementById(tabName).classList.add('active');
+        }
+        
+        function switchSettingsTab(tabName) {
+            document.querySelectorAll('#settingsModal .tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('#settingsModal .tab-content').forEach(content => {
+                content.style.display = 'none';
+                content.classList.remove('active');
+            });
+            
+            event.target.classList.add('active');
+            const content = document.getElementById('settings-' + tabName);
+            content.style.display = 'block';
+            content.classList.add('active');
+        }
+        
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        function openChangeProfileModal(username, currentProfile) {
+            document.getElementById('profile_username').value = username;
+            document.getElementById('profile_username_display').value = username + ' (Current: ' + currentProfile + ')';
+            openModal('changeProfileModal');
+        }
+        
+        function blockDevice(ip, mac) {
+            if (confirm('Block this device?\nIP: ' + ip + '\nMAC: ' + mac)) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.innerHTML = '<input type="hidden" name="action" value="block_ip">' +
+                                '<input type="hidden" name="ip_address" value="' + ip + '">' +
+                                '<input type="hidden" name="comment" value="Blocked device: ' + mac + '">';
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
         }
     </script>
 </body>

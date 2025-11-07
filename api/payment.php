@@ -55,8 +55,7 @@ function initiatePayment($data) {
         return;
     }
     
-    // Generate transaction reference
-    $transactionRef = 'UTS' . time() . rand(1000, 9999);
+    $transactionRef = 'UPTIME-' . $phoneNumber . '-' . rand(1000, 9999);
     
     // Get M-Pesa access token
     $accessToken = getMpesaAccessToken();
@@ -86,7 +85,9 @@ function initiatePayment($data) {
         'PhoneNumber' => $phoneNumber,
         'CallBackURL' => MPESA_CALLBACK_URL,
         'AccountReference' => $transactionRef,
-        'TransactionDesc' => "Uptime Hotspot - $validity"
+        // ✅ Updated transaction description
+        'TransactionDesc' => "UPTIME-HOTSPOT: $phoneNumber"
+
     ];
     
     $curl = curl_init($stkUrl);

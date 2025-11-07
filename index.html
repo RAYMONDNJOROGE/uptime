@@ -515,7 +515,7 @@
 
     <script>
       // CONFIGURATION - UPDATE THESE VALUES
-      const API_BASE_URL = "https://550ba415eeb2.ngrok-free.app/"; // Your domain where the PHP service is hosted
+      const API_BASE_URL = "https://505df4e6c1db.ngrok-free.app/"; // Your domain where the PHP service is hosted
       const PAYMENT_API_URL = API_BASE_URL + "api/payment.php";
       const VOUCHER_API_URL = API_BASE_URL + "api/voucher.php";
 
@@ -575,45 +575,54 @@
       async function checkPaymentStatus(phoneNumber, transactionRef, planName) {
         const resultMessages = {
           0: {
-            title: "Payment Confirmed! ✓",
-            message: `Your ${planName} is now active.`,
+            title: `<span style="color: green; font-weight: bold;">Payment Confirmed! ✓</span>`,
+            message: `<p>Your <strong>${planName}</strong> is now active and ready to use.</p>`,
             success: true,
           },
+
           1: {
-            title: "Insufficient Funds",
-            message: "You don't have enough balance to complete this payment.",
+            title: `<span style="color: red; font-weight: bold;">Insufficient Funds!</span>`,
+            message: `<p>You don't have enough balance to complete this payment. Please top up and try again.</p>`,
           },
+
           1032: {
-            title: "Payment Cancelled",
-            message: "You cancelled the payment request.",
+            title: `<span style="color: red; font-weight: bold;">Payment Cancelled!</span>`,
+            message: `<p>You cancelled the payment request. No charges were made.</p>`,
           },
+
           1035: {
-            title: "Transaction Failed",
-            message: "The transaction could not be completed.",
+            title: `<span style="color: orange; font-weight: bold;">Transaction Failed!</span>`,
+            message: `<p>We couldn’t complete the transaction. Please check your connection and try again.</p>`,
           },
+
           1037: {
-            title: "Timeout",
-            message: "You did not respond in time. Please try again.",
+            title: `<span style="color: orange; font-weight: bold;">Timeout!</span>`,
+            message: `<p>You didn’t respond in time. Please initiate the payment again.</p>`,
           },
+
           2001: {
-            title: "Wrong PIN Entered",
-            message: "You entered an incorrect PIN. Please try again.",
+            title: `<span style="color: red; font-weight: bold;">Wrong PIN Entered!</span>`,
+            message: `<p>The PIN you entered was incorrect. Please try again carefully.</p>`,
           },
+
           2002: {
-            title: "Payment Cancelled",
-            message: "You cancelled the payment request.",
+            title: `<span style="color: red; font-weight: bold;">Payment Cancelled!</span>`,
+            message: `<p>You cancelled the payment request. No action was taken.</p>`,
           },
+
           2003: {
-            title: "STK Push Not Accepted",
-            message: "You declined the payment prompt.",
+            title: `<span style="color: red; font-weight: bold;">STK Push Not Accepted!</span>`,
+            message: `<p>You declined the payment prompt. Please confirm to proceed.</p>`,
           },
+
           2005: {
-            title: "User Busy",
-            message: "Your phone was busy. Please try again.",
+            title: `<span style="color: orange; font-weight: bold;">User Busy!</span>`,
+            message: `<p>Your phone was busy during the request. Please try again when available.</p>`,
           },
+
           9999: {
-            title: "Unknown Error",
-            message: "An unknown error occurred. Please try again.",
+            title: `<span style="color: red; font-weight: bold;">Unknown Error!</span>`,
+            message: `<p>An unexpected error occurred. Please try again or contact support.</p>`,
           },
         };
 
@@ -622,7 +631,7 @@
         const startTime = Date.now();
 
         showModal(
-          "Waiting for Payment Confirmation",
+          "Waiting for Payment Confirmation...",
           `<div class="loading-spinner"></div><p style="text-align: center; margin-top: 1rem;">Please approve the M-Pesa prompt on your phone.<br>We'll check for confirmation for up to <strong>60 seconds</strong>.</p>`,
           null
         );
@@ -659,14 +668,18 @@
               showModal(
                 resultMessages[0].title,
                 `<p>${resultMessages[0].message}</p><p style="margin-top: 0.5rem;">Username: <strong>${username}</strong></p>`,
-                [
-                  {
-                    text: "Connect Now",
-                    type: "confirm",
-                    onClick: () => (window.location.href = loginUrl),
-                  },
-                ]
+                [] // No buttons
               );
+
+              // Automatically redirect after 2 seconds
+              setTimeout(() => {
+                window.location.href = loginUrl;
+              }, 2000);
+
+              // Automatically redirect after 2 seconds
+              setTimeout(() => {
+                window.location.href = loginUrl;
+              }, 2000);
 
               return true;
             }
@@ -735,7 +748,7 @@
 
         showModal(
           `Buy the ${validity} plan @ Ksh.${amount}?`,
-          `<p class="modal-text">Speed: ${speed}</p><p class="modal-text">Enter your Safaricom phone number:</p><input type="text" id="phoneInput" placeholder="e.g. 0712345678 or 0123456789" class="form-input" style="margin-top: 0.5rem;" />`,
+          `<p class="modal-text">Speed: ${speed}</p><p class="modal-text">Enter your Safaricom phone number:</p><input type="text" id="phoneInput" placeholder="e.g. 0712345678 or 0123456789" class="form-input" style="margin-top: 0.5rem;"/>`,
           [
             { text: "Cancel", type: "cancel", onClick: closeModal },
             {
@@ -747,8 +760,9 @@
 
                 if (!/^254[71]\d{8}$/.test(formattedPhoneNumber)) {
                   showModal(
-                    "Invalid Number",
-                    "<p>Please enter a valid Safaricom phone number (starting with 07 or 01).</p>",
+                    `<span style="color: red; font-weight: bold;">
+                    Invalid Phone Number!</span>`,
+                    "<p>Please enter a valid Safaricom phone number!.</p>",
                     [
                       {
                         text: "Try Again",
@@ -789,7 +803,7 @@
 
                   showModal(
                     "STK Push Sent!",
-                    `<div class="loading-spinner"></div><p style="text-align: center; margin-top: 1rem;">Check your phone for the M-Pesa prompt to pay <strong>Ksh.${amount}</strong></p>`,
+                    `<div class="loading-spinner"></div><p style="text-align: center; margin-top: 1rem; color;">Check your phone for the M-Pesa prompt to pay <strong>Ksh.${amount}</strong></p>`,
                     null
                   );
 
@@ -855,15 +869,14 @@
                 "Voucher Accepted! ✓",
                 `<p>Connecting you now...</p><p style="margin-top: 0.5rem; font-size: 0.875rem;">Username: <strong>${username}</strong></p>`,
                 [
-                  {
-                    text: "Continue",
-                    type: "confirm",
-                    onClick: () => {
-                      window.location.href = loginUrl;
-                    },
-                  },
+                  // No buttons
                 ]
               );
+
+              // Automatically redirect after 2 seconds
+              setTimeout(() => {
+                window.location.href = loginUrl;
+              }, 2000);
             } else {
               showModal(
                 "Invalid Voucher",
@@ -883,10 +896,6 @@
             );
           }
         });
-
-      document.getElementById("modal").addEventListener("click", (e) => {
-        if (e.target.id === "modal") closeModal();
-      });
     </script>
   </body>
 </html>
