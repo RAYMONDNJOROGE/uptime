@@ -642,44 +642,65 @@
             const data = await res.json();
             console.log("Payment status check:", data);
 
-            if (data.result_code !== undefined && data.result_code !== null) {
+            const status = data.status;
+            const resultCode = data.result_code;
+
+            // ✅ Confirmed
+            if (status === "confirmed" && data.payment_confirmed) {
               closeModal();
 
-              const result = resultMessages[data.result_code] || {
-                title: "Payment Status Received",
-                message: data.result_desc || "Payment status received.",
-                success: data.result_code === 0,
-              };
+              const username = data.username || phoneNumber;
+              const password = data.password || transactionRef.substring(0, 8);
+              const { linkLogin } = getHotspotVariables();
+              const loginUrl = `${linkLogin}?username=${encodeURIComponent(
+                username
+              )}&password=${encodeURIComponent(password)}`;
 
-              if (result.success && data.payment_confirmed) {
-                const username = data.username || phoneNumber;
-                const password =
-                  data.password || transactionRef.substring(0, 8);
-                const { linkLogin } = getHotspotVariables();
-                const loginUrl = `${linkLogin}?username=${encodeURIComponent(
-                  username
-                )}&password=${encodeURIComponent(password)}`;
-
-                showModal(
-                  result.title,
-                  `<p>${result.message}</p><p style="margin-top: 0.5rem;">Username: <strong>${username}</strong></p>`,
-                  [
-                    {
-                      text: "Connect Now",
-                      type: "confirm",
-                      onClick: () => (window.location.href = loginUrl),
-                    },
-                  ]
-                );
-              } else {
-                showModal(
-                  result.title,
-                  `<p>${result.message}</p><p>If money was deducted, please contact support with your phone number.</p>`,
-                  [{ text: "OK", type: "confirm", onClick: closeModal }]
-                );
-              }
+              showModal(
+                resultMessages[0].title,
+                `<p>${resultMessages[0].message}</p><p style="margin-top: 0.5rem;">Username: <strong>${username}</strong></p>`,
+                [
+                  {
+                    text: "Connect Now",
+                    type: "confirm",
+                    onClick: () => (window.location.href = loginUrl),
+                  },
+                ]
+              );
 
               return true;
+            }
+
+            // ✅ Failed
+            if (status === "failed") {
+              closeModal();
+
+              const result = resultMessages[resultCode] || {
+                title: "Payment Failed",
+                message: data.result_desc || "Payment could not be confirmed.",
+              };
+
+              showModal(
+                result.title,
+                `<p>${result.message}</p><p>If money was deducted, please contact support with your phone number.</p>`,
+                [{ text: "OK", type: "confirm", onClick: closeModal }]
+              );
+
+              return true;
+            }
+
+            // ✅ Processing — continue polling silently
+            if (status === "processing") {
+              continue;
+            }
+
+            // ✅ Defensive fallback — treat unknown status as processing
+            if (
+              !status ||
+              typeof resultCode === "undefined" ||
+              resultCode === null
+            ) {
+              continue;
             }
           } catch (error) {
             console.error("Payment check error:", error);
@@ -695,11 +716,11 @@
           await new Promise((r) => setTimeout(r, pollingInterval));
         }
 
-        // Timeout reached
+        // ✅ Timeout
         closeModal();
         showModal(
           "Polling Timed Out",
-          `<p>We did not receive a final payment confirmation within 30 seconds.</p><p>Please check your phone for any late confirmation messages, and contact support if your money was deducted.</p>`,
+          `<p>We did not receive a final payment confirmation within 60 seconds.</p><p>Please check your phone for any late confirmation messages, and contact support if your money was deducted.</p>`,
           [{ text: "OK", type: "confirm", onClick: closeModal }]
         );
         return false;
@@ -767,7 +788,7 @@
                   const transactionRef = data.transaction_ref;
 
                   showModal(
-                    "STK Push Sent! 📱",
+                    "STK Push Sent!",
                     `<div class="loading-spinner"></div><p style="text-align: center; margin-top: 1rem;">Check your phone for the M-Pesa prompt to pay <strong>Ksh.${amount}</strong></p>`,
                     null
                   );

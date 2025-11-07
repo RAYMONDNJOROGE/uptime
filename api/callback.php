@@ -141,9 +141,14 @@ if ($resultCode === 0) {
         logMessage("Failed to connect to MikroTik: $transactionRef", 'ERROR');
     }
 } else {
-    // Handle failed or cancelled payment
-    $transactions[$transactionRef]['status'] = 'failed';
-    logMessage("Payment failed: $transactionRef - Code: $resultCode - Reason: $resultDesc", 'WARNING');
+    // Handle non-successful payment
+    if (in_array($resultCode, [1037, null])) {
+        $transactions[$transactionRef]['status'] = 'processing';
+        logMessage("Payment still processing: $transactionRef - Code: $resultCode - Reason: $resultDesc", 'INFO');
+    } else {
+        $transactions[$transactionRef]['status'] = 'failed';
+        logMessage("Payment failed: $transactionRef - Code: $resultCode - Reason: $resultDesc", 'WARNING');
+    }
 }
 
 // Save transaction with full result info

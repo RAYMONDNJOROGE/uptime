@@ -159,7 +159,7 @@ function checkPaymentStatus($data) {
 
     $transaction = $transactions[$transactionRef];
 
-    // ✅ If already confirmed, return success immediately
+    // ✅ Already confirmed
     if ($transaction['status'] === 'confirmed') {
         echo json_encode([
             'status' => 'confirmed',
@@ -172,10 +172,11 @@ function checkPaymentStatus($data) {
         return;
     }
 
-    // ✅ If callback already provided a result_code, return it
+    // ✅ Callback has already provided a result
     if (isset($transaction['result_code'])) {
+        $status = $transaction['status'] ?? 'processing';
         echo json_encode([
-            'status' => $transaction['status'] ?? 'pending',
+            'status' => $status,
             'payment_confirmed' => false,
             'result_code' => $transaction['result_code'],
             'result_desc' => $transaction['result_desc'] ?? 'Payment status received'
@@ -183,7 +184,7 @@ function checkPaymentStatus($data) {
         return;
     }
 
-    // ✅ Otherwise, query Safaricom for status
+    // ✅ Query Safaricom if no result yet
     $accessToken = getMpesaAccessToken();
 
     if (!$accessToken) {
@@ -222,7 +223,7 @@ function checkPaymentStatus($data) {
     $resultCode = $result['ResultCode'] ?? null;
     $resultDesc = $result['ResultDesc'] ?? 'Payment status received';
 
-    // ✅ If payment is successful, create hotspot user
+    // ✅ Success
     if ($resultCode === '0') {
         $planName = $transaction['plan_name'];
         $profile = $HOTSPOT_PROFILES[$planName];
@@ -250,8 +251,6 @@ function checkPaymentStatus($data) {
                 $transactions[$transactionRef]['result_desc'] = 'Success';
                 saveTransactions($transactions);
 
-                logMessage("Payment confirmed via query: $transactionRef - User created: $username", 'INFO');
-
                 echo json_encode([
                     'status' => 'confirmed',
                     'payment_confirmed' => true,
@@ -261,22 +260,19 @@ function checkPaymentStatus($data) {
                     'password' => $password
                 ]);
                 return;
-            } else {
-                logMessage("Failed to create hotspot user for $transactionRef", 'ERROR');
             }
-        } else {
-            logMessage("Failed to connect to MikroTik for $transactionRef", 'ERROR');
         }
     }
 
-    // ✅ Save failed or pending result
+    // ✅ Failed or still processing
+    $status = in_array($resultCode, [1037, null]) ? 'processing' : 'failed';
+    $transactions[$transactionRef]['status'] = $status;
     $transactions[$transactionRef]['result_code'] = $resultCode;
     $transactions[$transactionRef]['result_desc'] = $resultDesc;
-    $transactions[$transactionRef]['status'] = 'failed';
     saveTransactions($transactions);
 
     echo json_encode([
-        'status' => 'failed',
+        'status' => $status,
         'payment_confirmed' => false,
         'result_code' => $resultCode,
         'result_desc' => $resultDesc
