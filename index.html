@@ -572,62 +572,58 @@
         );
       }
 
-      async function checkPaymentStatus(phoneNumber, transactionRef, planName) {
+      async function checkPaymentStatus(
+        phoneNumber,
+        transactionRef,
+        planName,
+        macAddress
+      ) {
         const resultMessages = {
           0: {
             title: `<span style="color: green; font-weight: bold;">Payment Confirmed! ✓</span>`,
             message: `<p>Your <strong>${planName}</strong> is now active and ready to use.</p>`,
             success: true,
           },
-
           1: {
             title: `<span style="color: red; font-weight: bold;">Insufficient Funds!</span>`,
             message: `<p>You don't have enough balance to complete this payment. Please top up and try again.</p>`,
           },
-
           1032: {
             title: `<span style="color: red; font-weight: bold;">Payment Cancelled!</span>`,
             message: `<p>You cancelled the payment request. No charges were made.</p>`,
           },
-
           1035: {
             title: `<span style="color: orange; font-weight: bold;">Transaction Failed!</span>`,
             message: `<p>We couldn’t complete the transaction. Please check your connection and try again.</p>`,
           },
-
           1037: {
             title: `<span style="color: orange; font-weight: bold;">Timeout!</span>`,
-            message: `<p>You didn’t respond in time. Please initiate the payment again.</p>`,
+            message: `<p>You didn't respond in time. Please initiate the payment again.</p>`,
           },
-
           2001: {
             title: `<span style="color: red; font-weight: bold;">Wrong PIN Entered!</span>`,
             message: `<p>The PIN you entered was incorrect. Please try again carefully.</p>`,
           },
-
           2002: {
             title: `<span style="color: red; font-weight: bold;">Payment Cancelled!</span>`,
             message: `<p>You cancelled the payment request. No action was taken.</p>`,
           },
-
           2003: {
             title: `<span style="color: red; font-weight: bold;">STK Push Not Accepted!</span>`,
             message: `<p>You declined the payment prompt. Please confirm to proceed.</p>`,
           },
-
           2005: {
             title: `<span style="color: orange; font-weight: bold;">User Busy!</span>`,
             message: `<p>Your phone was busy during the request. Please try again when available.</p>`,
           },
-
           9999: {
             title: `<span style="color: red; font-weight: bold;">Unknown Error!</span>`,
             message: `<p>An unexpected error occurred. Please try again or contact support.</p>`,
           },
         };
 
-        const pollingDuration = 60000; // 60 seconds
-        const pollingInterval = 1000; // 1 second
+        const pollingDuration = 60000;
+        const pollingInterval = 1000;
         const startTime = Date.now();
 
         showModal(
@@ -645,6 +641,7 @@
                 action: "check_status",
                 phone_number: phoneNumber,
                 transaction_ref: transactionRef,
+                mac_address: macAddress,
               }),
             });
 
@@ -654,29 +651,24 @@
             const status = data.status;
             const resultCode = data.result_code;
 
-            // ✅ Confirmed
             if (status === "confirmed" && data.payment_confirmed) {
               closeModal();
 
-              const username = data.username || phoneNumber;
-              const password = data.password || transactionRef.substring(0, 8);
+              const finalUsername = data.username || transactionRef;
+              const finalPassword =
+                data.password || transactionRef.substring(0, 8);
+
               const { linkLogin } = getHotspotVariables();
               const loginUrl = `${linkLogin}?username=${encodeURIComponent(
-                username
-              )}&password=${encodeURIComponent(password)}`;
+                finalUsername
+              )}&password=${encodeURIComponent(finalPassword)}`;
 
               showModal(
                 resultMessages[0].title,
-                `<p>${resultMessages[0].message}</p><p style="margin-top: 0.5rem;">Username: <strong>${username}</strong></p>`,
-                [] // No buttons
+                `<p>${resultMessages[0].message}</p><p style="margin-top: 0.5rem;">MacAddress: <strong>${finalUsername}</strong></p>`,
+                []
               );
 
-              // Automatically redirect after 2 seconds
-              setTimeout(() => {
-                window.location.href = loginUrl;
-              }, 2000);
-
-              // Automatically redirect after 2 seconds
               setTimeout(() => {
                 window.location.href = loginUrl;
               }, 2000);
@@ -684,7 +676,6 @@
               return true;
             }
 
-            // ✅ Failed
             if (status === "failed") {
               closeModal();
 
@@ -702,12 +693,10 @@
               return true;
             }
 
-            // ✅ Processing — continue polling silently
             if (status === "processing") {
               continue;
             }
 
-            // ✅ Defensive fallback — treat unknown status as processing
             if (
               !status ||
               typeof resultCode === "undefined" ||
@@ -729,7 +718,6 @@
           await new Promise((r) => setTimeout(r, pollingInterval));
         }
 
-        // ✅ Timeout
         closeModal();
         showModal(
           "Polling Timed Out",
@@ -760,8 +748,7 @@
 
                 if (!/^254[71]\d{8}$/.test(formattedPhoneNumber)) {
                   showModal(
-                    `<span style="color: red; font-weight: bold;">
-                    Invalid Phone Number!</span>`,
+                    `<span style="color: red; font-weight: bold;">Invalid Phone Number!</span>`,
                     "<p>Please enter a valid Safaricom phone number!.</p>",
                     [
                       {
@@ -810,7 +797,8 @@
                   checkPaymentStatus(
                     formattedPhoneNumber,
                     transactionRef,
-                    validity
+                    validity,
+                    mac
                   );
                 } catch (error) {
                   closeModal();
@@ -866,7 +854,8 @@
               )}&password=${encodeURIComponent(password)}`;
 
               showModal(
-                "Voucher Accepted! ✓",
+                `<span style="color: green; font-weight: bold;">
+                    Voucher Accepted! ✓</span>`,
                 `<p>Connecting you now...</p><p style="margin-top: 0.5rem; font-size: 0.875rem;">Username: <strong>${username}</strong></p>`,
                 [
                   // No buttons

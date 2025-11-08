@@ -146,86 +146,117 @@ class MikrotikAPI {
         return $parsed;
     }
 
-    // =====================================================
-    // HOTSPOT MANAGEMENT
-    // =====================================================
+ // =====================================================
+// HOTSPOT MANAGEMENT
+// =====================================================
 
-    public function addHotspotUser($username, $password, $profile, $macAddress = '', $ipAddress = '') {
-        $params = [
-            '=name=' . $username,
-            '=password=' . $password,
-            '=profile=' . $profile
-        ];
-        if (!empty($macAddress)) $params[] = '=comment=' . $macAddress;
+public function addHotspotUser($username, $password, $profile, $macAddress = '', $ipAddress = '', $server = 'hotspot1') {
+    $params = [
+        '=name=' . $username,
+        '=password=' . $password,
+        '=profile=' . $profile,
+        '=server=' . $server
+    ];
 
-        $this->write('/ip/hotspot/user/add', false, $params);
-        $response = $this->read(false);
-
-        if (isset($response[0]['!trap'])) {
-            logMessage("Failed to add hotspot user: $username", 'ERROR');
-            return false;
-        }
-
-        logMessage("Hotspot user $username added successfully", 'INFO');
-
-        // Attempt automatic login
-        if (!empty($ipAddress) && !empty($macAddress)) {
-            $loginSuccess = $this->hotspotLogin($ipAddress, $macAddress, $username, $password);
-            if ($loginSuccess) {
-                logMessage("User $username logged in automatically", 'INFO');
-            } else {
-                logMessage("Automatic login failed for $username", 'WARNING');
-            }
-        }
-
-        return true;
+    if (!empty($macAddress)) {
+        $params[] = '=mac-address=' . $macAddress;
+        $params[] = '=comment=' . $macAddress;
     }
 
-    public function removeHotspotUser($username) {
-        $this->write('/ip/hotspot/user/print', false, ['?name=' . $username]);
-        $users = $this->read(true);
-        if (empty($users)) return false;
+    $this->write('/ip/hotspot/user/add', false, $params);
+    $response = $this->read(false);
 
-        $userId = $users[0]['.id'] ?? null;
-        if (!$userId) return false;
-
-        $this->write('/ip/hotspot/user/remove', false, ['=.id=' . $userId]);
-        $response = $this->read(false);
-        return !isset($response[0]['!trap']);
-    }
-
-    public function hotspotLogin($ip, $mac, $username, $password) {
-        $this->write('/ip/hotspot/active/login', false, [
-            '=user=' . $username,
-            '=password=' . $password,
-            '=ip=' . $ip,
-            '=mac-address=' . $mac
-        ]);
-        $response = $this->read(false);
-
-        if (!isset($response[0]['!trap'])) {
-            logMessage("Hotspot login successful for $username", 'INFO');
-            return true;
-        }
-
+    if (isset($response[0]['!trap'])) {
+        logMessage("Failed to add hotspot user: $username", 'ERROR');
         return false;
     }
 
-    public function getHotspotUsers() {
-        $this->write('/ip/hotspot/user/print');
-        return $this->read(true);
+    logMessage("Hotspot user $username added successfully on server $server", 'INFO');
+
+    // Optional auto-login (for non-MAC auth modes)
+    if (!empty($ipAddress) && !empty($macAddress) && !empty($username)) {
+        $loginSuccess = $this->hotspotLogin($ipAddress, $macAddress, $username, $password);
+        if ($loginSuccess) {
+            logMessage("User $username logged in automatically", 'INFO');
+        } else {
+            logMessage("Automatic login failed for $username", 'WARNING');
+        }
     }
 
-    public function getHotspotActiveUsers() {
-        $this->write('/ip/hotspot/active/print');
-        return $this->read(true);
+    return true;
+}
+
+public function removeHotspotUser($username) {
+    $this->write('/ip/hotspot/user/print', false, ['?name=' . $username]);
+    $users = $this->read(true);
+    if (empty($users)) return false;
+
+    $userId = $users[0]['.id'] ?? null;
+    if (!$userId) return false;
+
+    $this->write('/ip/hotspot/user/remove', false, ['=.id=' . $userId]);
+    $response = $this->read(false);
+    return !isset($response[0]['!trap']);
+}
+
+public function hotspotLogin($ip, $mac, $username, $password) {
+    $this->write('/ip/hotspot/active/login', false, [
+        '=user=' . $username,
+        '=password=' . $password,
+        '=ip=' . $ip,
+        '=mac-address=' . $mac
+    ]);
+    $response = $this->read(false);
+
+    if (!isset($response[0]['!trap'])) {
+        logMessage("Hotspot login successful for $username", 'INFO');
+        return true;
     }
 
-    public function disconnectUser($id) {
-        $this->write('/ip/hotspot/active/remove', false, ['=.id=' . $id]);
-        $response = $this->read(false);
-        return !isset($response[0]['!trap']);
+    return false;
+}
+
+public function removeActiveHotspotSession($macAddress) {
+    if (empty($macAddress)) return false;
+
+    $this->write('/ip/hotspot/active/print', false, ['?mac-address=' . $macAddress]);
+    $activeUsers = $this->read(true);
+
+    if (empty($activeUsers)) {
+        logMessage("No active session found for MAC: $macAddress", 'INFO');
+        return false;
     }
+
+    $sessionId = $activeUsers[0]['.id'] ?? null;
+    if (!$sessionId) return false;
+
+    $this->write('/ip/hotspot/active/remove', false, ['=.id=' . $sessionId]);
+    $response = $this->read(false);
+
+    if (!isset($response[0]['!trap'])) {
+        logMessage("Removed active session for MAC: $macAddress", 'INFO');
+        return true;
+    }
+
+    logMessage("Failed to remove active session for MAC: $macAddress", 'WARNING');
+    return false;
+}
+
+public function getHotspotUsers() {
+    $this->write('/ip/hotspot/user/print');
+    return $this->read(true);
+}
+
+public function getHotspotActiveUsers() {
+    $this->write('/ip/hotspot/active/print');
+    return $this->read(true);
+}
+
+public function disconnectUser($id) {
+    $this->write('/ip/hotspot/active/remove', false, ['=.id=' . $id]);
+    $response = $this->read(false);
+    return !isset($response[0]['!trap']);
+}
 
     // =====================================================
     // SYSTEM INFO

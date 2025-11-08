@@ -23,30 +23,29 @@ $safaricomResultDescriptions = [
     9999  => 'Unknown Error'
 ];
 
-// Log the callback
+// Log raw callback
 $callbackData = file_get_contents('php://input');
 logMessage("M-Pesa Callback received: " . $callbackData, 'INFO');
 
 $callback = json_decode($callbackData, true);
-
 if (!$callback) {
     echo json_encode(['ResultCode' => 1, 'ResultDesc' => 'Invalid JSON']);
     exit;
 }
 
-// Extract callback data
-$resultCode = $callback['Body']['stkCallback']['ResultCode'] ?? null;
-$rawResultDesc = $callback['Body']['stkCallback']['ResultDesc'] ?? '';
-$resultDesc = $safaricomResultDescriptions[$resultCode] ?? $rawResultDesc;
-$checkoutRequestId = $callback['Body']['stkCallback']['CheckoutRequestID'] ?? '';
+// Extract core callback fields
+$resultCode         = $callback['Body']['stkCallback']['ResultCode'] ?? null;
+$rawResultDesc       = $callback['Body']['stkCallback']['ResultDesc'] ?? '';
+$resultDesc          = $safaricomResultDescriptions[$resultCode] ?? $rawResultDesc;
+$checkoutRequestId   = $callback['Body']['stkCallback']['CheckoutRequestID'] ?? '';
 
-if ($resultCode === null) {
+if ($resultCode === null || !$checkoutRequestId) {
     echo json_encode(['ResultCode' => 1, 'ResultDesc' => 'Missing data']);
     exit;
 }
 
-// Find transaction by checkout request ID
-$transactions = getTransactions();
+// Find matching transaction
+$transactions   = getTransactions();
 $transactionRef = null;
 
 foreach ($transactions as $ref => $txn) {
@@ -64,84 +63,85 @@ if (!$transactionRef) {
 
 $transaction = $transactions[$transactionRef];
 
-// Common fields to store
-$transactions[$transactionRef]['result_code'] = $resultCode;
-$transactions[$transactionRef]['result_desc'] = $resultDesc;
+// Store callback result
+$transactions[$transactionRef]['result_code']     = $resultCode;
+$transactions[$transactionRef]['result_desc']     = $resultDesc;
 $transactions[$transactionRef]['callback_result'] = $rawResultDesc;
 
 // Handle successful payment
 if ($resultCode === 0) {
     global $HOTSPOT_PROFILES;
 
-    // Extract payment details
-    $callbackMetadata = $callback['Body']['stkCallback']['CallbackMetadata']['Item'] ?? [];
-    $mpesaReceiptNumber = '';
-    $amount = 0;
-    $phoneNumber = '';
+    // Extract metadata
+    $callbackMetadata     = $callback['Body']['stkCallback']['CallbackMetadata']['Item'] ?? [];
+    $mpesaReceiptNumber   = '';
+    $amount               = 0;
+    $phoneNumber          = '';
 
     foreach ($callbackMetadata as $item) {
-        if ($item['Name'] === 'MpesaReceiptNumber') {
-            $mpesaReceiptNumber = $item['Value'];
-        } elseif ($item['Name'] === 'Amount') {
-            $amount = $item['Value'];
-        } elseif ($item['Name'] === 'PhoneNumber') {
-            $phoneNumber = $item['Value'];
+        switch ($item['Name']) {
+            case 'MpesaReceiptNumber':
+                $mpesaReceiptNumber = $item['Value'];
+                break;
+            case 'Amount':
+                $amount = $item['Value'];
+                break;
+            case 'PhoneNumber':
+                $phoneNumber = $item['Value'];
+                break;
         }
     }
 
     // Prepare hotspot credentials
-    $planName = $transaction['plan_name'];
-    $profile = $HOTSPOT_PROFILES[$planName];
-
-    $username = $transaction['phone_number'];
-    $password = substr($transactionRef, 0, 8);
+    $planName   = $transaction['plan_name'];
+    $profile    = $HOTSPOT_PROFILES[$planName] ?? null;
     $macAddress = $transaction['mac_address'] ?? '';
     $ipAddress  = $transaction['ip_address'] ?? '';
+    $username   = $macAddress;
+    $password   = ''; // MAC-based login
 
-    $mikrotik = new MikrotikAPI(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS, MIKROTIK_PORT);
+    if (!$profile || !$macAddress || !$ipAddress) {
+        logMessage("Missing hotspot data for transaction: $transactionRef", 'ERROR');
+        $transactions[$transactionRef]['status'] = 'error';
+    } else {
+        $mikrotik = new MikrotikAPI(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS, MIKROTIK_PORT);
 
-    if ($mikrotik->connect()) {
-        $success = $mikrotik->addHotspotUser(
-            $username,
-            $password,
-            $profile['profile'],
-            $macAddress,
-            $ipAddress
-        );
-
-        if ($success && !empty($ipAddress) && !empty($macAddress)) {
-            $loginSuccess = $mikrotik->hotspotLogin(
-                $ipAddress,
-                $macAddress,
+        if ($mikrotik->connect()) {
+            $success = $mikrotik->addHotspotUser(
                 $username,
-                $password
+                $password,
+                $profile['profile'],
+                $macAddress,
+                $ipAddress,
+                'hotspot1'
             );
 
-            if ($loginSuccess) {
-                logMessage("User $username auto-logged in after payment", 'INFO');
+            if ($success) {
+                logMessage("MAC-auth user $username added after payment", 'INFO');
+
+                // Remove stale session to force re-auth
+                $mikrotik->removeActiveHotspotSession($macAddress);
+
+                $validityHours = (int) ($transaction['validity'] ?? 1);
+                $transactions[$transactionRef]['status']        = 'confirmed';
+                $transactions[$transactionRef]['confirmed_at']  = date('Y-m-d H:i:s');
+                $transactions[$transactionRef]['expires_at']    = date('Y-m-d H:i:s', strtotime("+$validityHours hours"));
+                $transactions[$transactionRef]['username']      = $username;
+                $transactions[$transactionRef]['password']      = $password;
+                $transactions[$transactionRef]['mpesa_receipt'] = $mpesaReceiptNumber;
             } else {
-                logMessage("Auto-login failed for $username after payment", 'WARNING');
+                logMessage("Failed to create MAC-auth user: $transactionRef", 'ERROR');
+                $transactions[$transactionRef]['status'] = 'error';
             }
-        }
 
-        $mikrotik->disconnect();
-
-        if ($success) {
-            $transactions[$transactionRef]['status'] = 'confirmed';
-            $transactions[$transactionRef]['confirmed_at'] = date('Y-m-d H:i:s');
-            $transactions[$transactionRef]['username'] = $username;
-            $transactions[$transactionRef]['password'] = $password;
-            $transactions[$transactionRef]['mpesa_receipt'] = $mpesaReceiptNumber;
-
-            logMessage("Payment confirmed: $transactionRef - User: $username - Receipt: $mpesaReceiptNumber", 'INFO');
+            $mikrotik->disconnect();
         } else {
-            logMessage("Failed to create hotspot user: $transactionRef", 'ERROR');
+            logMessage("Failed to connect to MikroTik: $transactionRef", 'ERROR');
+            $transactions[$transactionRef]['status'] = 'error';
         }
-    } else {
-        logMessage("Failed to connect to MikroTik: $transactionRef", 'ERROR');
     }
 } else {
-    // Handle non-successful payment
+    // Handle failed or pending payment
     if (in_array($resultCode, [1037, null])) {
         $transactions[$transactionRef]['status'] = 'processing';
         logMessage("Payment still processing: $transactionRef - Code: $resultCode - Reason: $resultDesc", 'INFO');
@@ -151,18 +151,18 @@ if ($resultCode === 0) {
     }
 }
 
-// Save transaction with full result info
+// Save transaction
 saveTransactions($transactions);
 
-// Respond to Safaricom and expose result_code for frontend polling
+// Respond to Safaricom
 echo json_encode([
-    'ResultCode' => 0,
-    'ResultDesc' => 'Callback processed',
-    'transaction_ref' => $transactionRef,
-    'result_code' => $resultCode,
-    'result_desc' => $resultDesc,
-    'status' => $transactions[$transactionRef]['status'],
+    'ResultCode'        => 0,
+    'ResultDesc'        => 'Callback processed',
+    'transaction_ref'   => $transactionRef,
+    'result_code'       => $resultCode,
+    'result_desc'       => $resultDesc,
+    'status'            => $transactions[$transactionRef]['status'],
     'payment_confirmed' => ($resultCode === 0),
-    'username' => $transactions[$transactionRef]['username'] ?? null,
-    'password' => $transactions[$transactionRef]['password'] ?? null
+    'username'          => $transactions[$transactionRef]['username'] ?? null,
+    'password'          => $transactions[$transactionRef]['password'] ?? null
 ]);
